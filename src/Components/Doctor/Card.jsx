@@ -67,7 +67,7 @@ export default function Card() {
             </div>
           ))
         ) : (
-          <div>No doctors found</div> // Fallback if there are no doctors
+          <div>No doctors found</div> 
         )}
       </div>
     </>
