@@ -37,7 +37,6 @@ export default function Card() {
 
   if (error) {
     return <ToastMessage type={"error"} message={error} />;
-    // Error message if there's a problem fetching data
   }
 
   return (
