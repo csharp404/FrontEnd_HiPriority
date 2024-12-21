@@ -6,7 +6,7 @@ import SpinnerLoading from "../GeneralBlock/Spinner";
 import ToastMessage from "../GeneralBlock/ToastMsg";
 
 export default function Card() {
-  const [doctors, setDoctors] = useState([]); // Initialize as an empty array
+  const [doctors, setDoctors] = useState([]); 
   const [loading, setLoading] = useState(true); // To handle loading state
   const [error, setError] = useState(null); // To handle any errors
   const [toastMessage, setToastMessage] = useState(null); // State to handle toast visibility
@@ -37,7 +37,6 @@ export default function Card() {
 
   if (error) {
     return <ToastMessage type={"error"} message={error} />;
-    // Error message if there's a problem fetching data
   }
 
   return (
