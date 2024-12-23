@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
-
+import { useTranslation } from 'react-i18next';
 export default function NavBar() {
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang); // Switch language
+  };
+   
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark"
@@ -30,52 +35,52 @@ export default function NavBar() {
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
               <NavLink className="nav-link" to="/" end>
-                Home
+                {t('Home')}
               </NavLink>
             </li>
 
             {[
               {
-                name: "Doctor",
+                name: t("Doctor"),
                 links: [
-                  { label: "Display Doctors", path: "/doctors" },
-                  { label: "Add Doctor", path: "/create-doctor" },
+                  { label:t( "Display Doctors"), path: "/doctors" },
+                  { label: t("Add Doctor"), path: "/create-doctor" },
                 ],
               },
               {
-                name: "Drugs",
+                name: t("Drugs"),
                 links: [
-                  { label: "Drug Warehouse", path: "/drugs" },
-                  { label: "Warehouse Orders", path: "/ReceiverDrug" },
-                  { label: "Order Drugs", path: "/order-drugs" },
+                  { label: t("Drug Warehouse"), path: "/drugs" },
+                  { label: t("Warehouse Orders"), path: "/ReceiverDrug" },
+                  { label: t("Order Drugs"), path: "/order-drugs" },
                 ],
               },
               {
-                name: "Nurse",
+                name:t( "Nurse"),
                 links: [
-                  { label: "Display Nurses", path: "/nurses" },
-                  { label: "Add Nurse", path: "/create-nurse" },
+                  { label: t("Display Nurses"), path: "/nurses" },
+                  { label: t("Add Nurse"), path: "/create-nurse" },
                 ],
               },
               {
-                name: "Patient",
+                name: t("Patient"),
                 links: [
-                  { label: "Display Patients", path: "/patients" },
-                  { label: "Add Patient", path: "/create-patient" },
+                  { label: t("Display Patients"), path: "/patients" },
+                  { label: t("Add Patient"), path: "/create-patient" },
                 ],
               },
               {
-                name: "Management Staff",
+                name: t("Management Staff"),
                 links: [
-                  { label: "Display Management Staff", path: "/staff" },
-                  { label: "Add Management Staff", path: "/create-staff" },
+                  { label: t("Display Management Staff"), path: "/staff" },
+                  { label: t("Add Management Staff"), path: "/create-staff" },
                 ],
               },
               {
-                name: "Pharmacist",
+                name: t("Pharmacist"),
                 links: [
-                  { label: "Display Pharmacists", path: "/pharmacists" },
-                  { label: "Add Pharmacist", path: "/create-pharmacist" },
+                  { label: t("Display Pharmacists"), path: "/pharmacists" },
+                  { label: t("Add Pharmacist"), path: "/create-pharmacist" },
                 ],
               },
             ].map((menu, index) => (
@@ -113,8 +118,47 @@ export default function NavBar() {
             />
             <span className="text-light me-3">John Doe</span>
             <NavLink className="btn btn-outline-light btn-sm" to="/login">
-              Login
+              {t("Login")}
             </NavLink>
+      <div className="dropdown">
+              <button
+                className="btn btn-outline-light dropdown-toggle"
+                type="button"
+                id="languageDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                🌐
+              </button>
+              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                <li>
+                  <button
+                    className="dropdown-item d-flex align-items-center"
+                    onClick={() => changeLanguage("en")}
+                  >
+                    <img
+  src="https://flagcdn.com/w40/gb.png"
+  alt="UK Flag"
+  style={{ width: "20px", marginRight: "10px" }}
+/>
+                    English
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item d-flex align-items-center"
+                    onClick={() => changeLanguage("ar")}
+                  >
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Flag_of_Jordan.svg"
+                      alt="Jordan Flag"
+                      style={{ width: "20px", marginRight: "10px" }}
+                    />
+                    العربية
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

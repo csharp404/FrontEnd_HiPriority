@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 const DrugOrderForm = () => {
+  const { t, i18n } = useTranslation();
   const [orders, setOrders] = useState([]);
   const [order, setOrder] = useState({
     doctorName: "",

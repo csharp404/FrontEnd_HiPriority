@@ -110,7 +110,7 @@
     "Add Management Staff": "إضافة عضو كادر إداري",
     "Display Management Staff": "قائمة الكادر الإداري",
     "Add Pharmacist": "إضافة صيدلي",
-    "Display Pharmacists": "قائمة الصيدليين",
+    "Display Pharmacists": "قائمة الصيادلة",
     "Drug Warehouse": "مستودع الأدوية",
     "Warehouse Orders": "طلبات المستودع",
     "Order Drugs": "طلب أدوية",
@@ -127,5 +127,39 @@
     "Experience": "سنوات الخبرة",
     "Phone:": "رقم الهاتف المحمول:",
     "Email:": "البريد الإلكتروني:",
-    "Nurse Details": "تفاصيل عن الممرض"
+    "Nurse Details": "تفاصيل عن الممرض",
+    "Operation Completed Successfully!":"اكتملت العملية بنجاح",
+    "An Error Occurred, Please Try Again.":"حدث خطأ ,يرجى المحاولة مرة اخرى",
+    "Female":"انثى",
+    "Male":"ذكر",
+    "Data Loaded Successfully!": "!لفد تم تحميل المعلومات بنجاح",
+    "Failed to Load data.":"فشل في تحميل المعلومات",
+    "loading your data, please hold on...":"جاري تحميل المعلومات,الرجاء الانتظار",
+    "No data found":"لا يوجد معلومات",
+    "Password":"كلمة المرور",
+    "Confirm Password":"كلمة المرور مرة اخرى",
+   "City":"المدينة",
+   "Area":"المنطقة",    
+
+    "Error loading departments:":"Error loading departments:",
+   "Error loading cities:":"Error loading cities:",
+   "Error loading areas:":"Error loading areas:",
+   "Success:":"تم ادخال سجل جديد",
+   "Error:":"فشل في ادخال سجل جديد",
+   "Position":"الوظفية",
+
+   "Error updating data:":"حدث خطأ في تحديث المعلومات",
+
+
+"Login successful!":"تم تسجيل الدخول بنجاح",
+"Invalid email or password.":"خطأ في ادخال البريد الالكتروني او كلمة المرور",
+"An error occurred. Please try again.":"حدث خطأ ما.الرجاء المحاولة مرة اخرى",
+"Email address":"البريد الالكتروني",
+
+"Add Patient":"إضافة مريض",
+"Display Patients":"قائمة المرضى",
+"Notification":"إشعار",
+
+"info": ".هذا إشعار تعليمي",
+"warning": "انتبه! تأكد من المعلومات المدخلة."
 }

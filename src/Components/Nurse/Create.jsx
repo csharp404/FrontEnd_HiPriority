@@ -1,8 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is loaded first
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 
 export default function DoctorForm() {
+  const { t, i18n } = useTranslation();
   const [doctor, setDoctor] = useState({
     FirstName: "",
     LastName: "",

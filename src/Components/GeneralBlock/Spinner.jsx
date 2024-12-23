@@ -1,6 +1,9 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 
 export default function SpinnerLoading({ message = "Loading, please wait..." }) {
+  const { t, i18n } = useTranslation();
+
   return (
     <div
       className="d-flex flex-column justify-content-center align-items-center vh-100"
@@ -12,7 +15,7 @@ export default function SpinnerLoading({ message = "Loading, please wait..." }) 
       </div>
 
       {/* Optional Loading Message */}
-      {message && <p className="mt-3">{message}</p>}
+      {t(message) && <p className="mt-3">{t(message)}</p>}
     </div>
   );
 }

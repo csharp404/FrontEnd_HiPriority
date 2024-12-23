@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // Declare fixed messages
-const msgs = {
+const defaultMessages = {
   success: "Operation Completed Successfully!",
   error: "An Error Occurred, Please Try Again.",
   warning: "WARNING! CHECK YOUR INPUT.",
   info: "This is an Informative Message.",
 };
 
-const ToastMessage = ({ type ,message}) => {
+const ToastMessage = ({ type, message }) => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [timestamp, setTimestamp] = useState("");
 
   useEffect(() => {
-    if (type && msgs[type]) {
+    if (type) {
       setIsVisible(true);
       setTimestamp(new Date().toLocaleTimeString());
 
@@ -25,23 +27,25 @@ const ToastMessage = ({ type ,message}) => {
     }
   }, [type]);
 
-  const toastClass =
-    {
-      success: "bg-success text-white",
-      error: "bg-danger text-white",
-      warning: "bg-warning text-dark",
-      info: "bg-info text-white",
-    }[type] || "bg-secondary text-white";
+  const toastClass = {
+    success: "bg-success text-white",
+    error: "bg-danger text-white",
+    warning: "bg-warning text-dark",
+    info: "bg-info text-white",
+  }[type] || "bg-secondary text-white";
 
   if (!isVisible) return null;
 
   return (
     <div
-      className={`toast position-fixed bottom-0 end-0 m-3 show`}
+      className="toast position-fixed bottom-0 end-0 m-3 show"
       style={{ zIndex: 1055 }}
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
     >
       <div className={`toast-header ${toastClass}`}>
-        <strong className="me-auto">Message</strong>
+        <strong className="me-auto">{t("Notification")}</strong>
         <small>{timestamp}</small>
         <button
           type="button"
@@ -50,7 +54,9 @@ const ToastMessage = ({ type ,message}) => {
           onClick={() => setIsVisible(false)}
         ></button>
       </div>
-      <div className="toast-body">{message || msgs[type]}</div>
+      <div className="toast-body">
+        {message || t(defaultMessages[type] || "Unknown Notification Type")}
+      </div>
     </div>
   );
 };

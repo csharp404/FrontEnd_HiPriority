@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 const DrugOrdersManager = () => {
+  const { t, i18n } = useTranslation();
   const [orders, setOrders] = useState([
     {
       id: 1,
