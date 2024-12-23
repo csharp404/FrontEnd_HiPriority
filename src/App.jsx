@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./Components/GeneralBlock/Navbar"; // Import your NavBar component
+import './Components/GeneralBlock/i18n';
 
 import CreateD from "./Components/Doctor/Create"; // Your AddDoctor component
 import CardD from "./Components/Doctor/Card";

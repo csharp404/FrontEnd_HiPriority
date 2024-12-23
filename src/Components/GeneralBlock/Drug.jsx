@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
+
 
 const DrugWarehouse = () => {
+  const { t, i18n } = useTranslation();
   const [drugs, setDrugs] = useState([
     { name: "Paracetamol", quantity: 100, expiry: "2024-05-01" },
     { name: "Ibuprofen", quantity: 50, expiry: "2025-03-15" },   

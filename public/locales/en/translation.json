@@ -119,12 +119,54 @@
     "CONFIRM DELETION": "CONFIRM DELETION",
     "Are you sure you want to delete this record?": "Are you sure you want to delete this record?",
     "Confirm": "Confirm",
-    "Cancel": "",
+    "Cancel":"Cancel",
     "Excuse Submitted Successfully!": "Excuse Submitted Successfully!",
     "Apply Filter": "Apply Filter",
     "Clear Filter": "Clear Filter",
     "Select Department": "Select Department",
-    "Select": "",
+    "Select":"Select",
     "We'll never share your personal information with anyone else.": "We'll never share your information with anyone else.",
-    "information updated successfully!": "information updated successfully!"
+    "information updated successfully!": "information updated successfully!",
+    "Operation Completed Successfully!": "Operation Completed Successfully!",
+    "An Error Occurred, Please Try Again.": "An Error Occurred, Please Try Again.",
+    "Female":"Female",
+    "Male":"Male",
+
+    "card(comment)":"",
+    "Data Loaded Successfully!": "Data Loaded Successfully!",
+    "Failed to Load data.":"Failed to Load data.",
+    "loading your data, please hold on...":"loading your data, please hold on...",
+    "No data found":"No data found",
+
+"create(comment)not finished":"create",
+   "Error loading departments:":"Error loading departments:",
+   "Error loading cities:":"Error loading cities:",
+   "Error loading areas:":"Error loading areas:",
+   "Success:":"Success:",
+   "Error:":"Error:",
+   "Position":"Position",
+   "Password":"Password",
+   "Confirm Password":"Confirm Password",
+   "City":"City",
+   "Area":"Area",
+
+"details(comment)":"",
+  "data deleted successfuly":"data deleted successfuly",
+  "Loading...":"Loading...",
+
+  "update doc (comment)":"update doc",
+"Error updating staff data:":"Error updating staff data:",
+
+"Login successful!":"Login successful!",
+"Invalid email or password.":"Invalid email or password.",
+"An error occurred. Please try again.":"An error occurred. Please try again.",
+"Email address":"Email address",
+
+"Add Patient":"Add Patient",
+"Display Patients":"Display Patients",
+"Notification":"Notification",
+
+"info": "This is an Informative Message.",
+"warning": "WARNING! CHECK YOUR INPUT."
+
 }

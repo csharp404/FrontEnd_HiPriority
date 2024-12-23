@@ -3,10 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios"; // Ensure axios is imported
 import "bootstrap/dist/css/bootstrap.min.css";
 import ToastMessage from "../GeneralBlock/ToastMsg";
+import { useTranslation } from 'react-i18next';
 
 export default function DoctorForm() {
   const { id } = useParams();
-  
+  const { t, i18n } = useTranslation();
+
   const [formData, setFormData] = useState({
     role:"4"
   

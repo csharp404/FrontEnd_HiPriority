@@ -7,9 +7,9 @@ import { useTranslation } from "react-i18next";
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Include the Bootstrap JS
 
 export default function DoctorDetails() {
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslation();
   const [doctor, setDoctor] = useState(null); // Initialize doctor as null
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [toastMessage, setToastMessage] = useState(null); // State for toast message

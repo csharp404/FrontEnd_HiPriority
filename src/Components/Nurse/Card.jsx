@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SpinnerLoading from "../GeneralBlock/Spinner";
 import ToastMessage from "../GeneralBlock/ToastMsg";
+import { useTranslation } from 'react-i18next';
 
 export default function Card() {
+  const { t, i18n } = useTranslation();
   const [doctors, setDoctors] = useState([]); // Initialize as an empty array
   const [loading, setLoading] = useState(true); // To handle loading state
   const [error, setError] = useState(null); // To handle any errors

@@ -3,10 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios"; // Ensure axios is imported
 import "bootstrap/dist/css/bootstrap.min.css";
 import ToastMessage from "../GeneralBlock/ToastMsg";
+import { useTranslation } from 'react-i18next';
 
 export default function DoctorForm() {
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
-  
   const [formData, setFormData] = useState({
     role:"1"
   
@@ -25,7 +26,7 @@ export default function DoctorForm() {
         setDepartments(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching departments:", error);
+        console.error(t("Error loading departments:"), error);
       });
 
     axios
@@ -34,7 +35,7 @@ export default function DoctorForm() {
         setCities(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching cities:", error);
+        console.error(t("Error loading cities:"), error);
       });
   }, []); // Empty dependency array to run only once on mount
 
@@ -47,7 +48,7 @@ export default function DoctorForm() {
           setAreas(response.data);
         })
         .catch((error) => {
-          console.error("Error fetching areas:", error);
+          console.error(t("Error loading areas:"), error);
         });
     } else {
       setAreas([]); // Clear areas if no city is selected
@@ -65,7 +66,7 @@ export default function DoctorForm() {
         setFormData(response.data.doctorsCard); // Set form data to fetched doctor info
       })
       .catch((error) => {
-        console.error("Error fetching doctor data:", error);
+        console.error(t("Error loading doctor data:"), error);
       });
   }, [id]); // Dependency array ensures this effect runs when the id changes
 
@@ -82,17 +83,17 @@ export default function DoctorForm() {
     axios
       .put(`https://localhost:7127/api/user/user-update`, formData)
       .then(() => {
-        setToastMessage("Information updated successfully!"); // Trigger toast message on success
+        setToastMessage(t("Information updated successfully!")); // Trigger toast message on success
         setTimeout(() => setToastMessage(""), 3000); // Clear toast message after 3 seconds
         navigate(`/DoctorDetails/${id}`);
       })
       .catch((error) => {
-        console.error("Error updating staff data:", error);
+        console.error(t("Error updating staff data:"), error);
       });
   };
 
   if (!formData) {
-    return <div>Loading...</div>; // Render a loading state until the doctor data is fetched
+    return <div>{t("Loading...")}</div>; // Render a loading state until the doctor data is fetched
   }
 
   return (
@@ -101,7 +102,7 @@ export default function DoctorForm() {
         <div className="col-8">
           <div className="card shadow-lg p-4 rounded">
             <h2 className="text-center mb-4 text-white bg-primary py-3 rounded-top">
-              Add New Doctor
+              {t("Add New Doctor")}
             </h2>
             {toastMessage && (
               <ToastMessage message={toastMessage} type={"success"} />
@@ -111,7 +112,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="FirstName" className="form-label">
-                    First Name
+                    {t("First Name")}
                   </label>
                   <input
                     type="text"
@@ -125,7 +126,7 @@ export default function DoctorForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="LastName" className="form-label">
-                    Last Name
+                    {t("Last Name")}
                   </label>
                   <input
                     type="text"
@@ -143,7 +144,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="age" className="form-label">
-                    Age
+                    {t("Age")}
                   </label>
                   <input
                     type="number"
@@ -164,7 +165,7 @@ export default function DoctorForm() {
                 
                 <div className="col-md-6">
                   <label htmlFor="departmentid" className="form-label">
-                    Department
+                    {t("Department")}
                   </label>
                   <select
                     className="form-select form-select-lg"
@@ -187,7 +188,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="experience" className="form-label">
-                    Experience
+                    {t("Experience")}
                   </label>
                   <input
                     type="text"
@@ -205,7 +206,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="phonenumber" className="form-label">
-                    Phone
+                    {t("Phone")}
                   </label>
                   <input
                     type="tel"
@@ -222,7 +223,7 @@ export default function DoctorForm() {
 
                 <div className="col-md-6">
                   <label htmlFor="email" className="form-label">
-                    Email
+                    {t("Email")}
                   </label>
                   <input
                     type="email"
@@ -239,7 +240,7 @@ export default function DoctorForm() {
 
               {/* Gender Fields */}
               <div className="row mb-3">
-                <label className="form-label">Gender</label>
+                <label className="form-label">{t("Gender")}</label>
                 <div
                   className="form-check"
                   style={{ display: "flex", gap: "20px" }}
@@ -254,7 +255,7 @@ export default function DoctorForm() {
                       onChange={handleChange}
                     />
                     <label className="form-check-label" htmlFor="male">
-                      Male
+                      {t("Male")}
                     </label>
                   </div>
                   <div>
@@ -267,7 +268,7 @@ export default function DoctorForm() {
                       onChange={handleChange}
                     />
                     <label className="form-check-label" htmlFor="female">
-                      Female
+                      {t("Female")}
                     </label>
                   </div>
                 </div>
@@ -277,7 +278,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="cityid" className="form-label">
-                    City
+                    {t("City")}
                   </label>
                   <select
                     className="form-select form-select-lg"
@@ -296,7 +297,7 @@ export default function DoctorForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="areaid" className="form-label">
-                    Area
+                    {t("Area")}
                   </label>
                   <select
                     className="form-select form-select-lg"
@@ -318,7 +319,7 @@ export default function DoctorForm() {
               {/* Role Field */}
               <div className="row mb-3">
                 <label htmlFor="role" className="form-label">
-                  Role
+                  {t("Position")}
                 </label>
                 <select
                   className="form-select form-select-lg"
@@ -329,10 +330,10 @@ export default function DoctorForm() {
                   required
                   disabled
                 >
-                  <option value="1">Doctor</option>
-                  <option value="2">Nurse</option>
-                  <option value="3">Management Staff</option>
-                  <option value="4">Pharmacist</option>
+                  <option value="1">{t("Doctor")}</option>
+                  <option value="2">{t("Nurse")}</option>
+                  <option value="3">{t("Management Staff")}</option>
+                  <option value="4">{t("Pharmacist")}</option>
                 </select>
               </div>
 
@@ -343,7 +344,7 @@ export default function DoctorForm() {
                   className="btn btn-lg btn-primary"
                   style={{ padding: "12px 40px", fontSize: "1.1rem" }}
                 >
-                  Save
+                  {t("Save")}
                 </button>
               </div>
             </form>

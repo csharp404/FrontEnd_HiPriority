@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SpinnerLoading from "../GeneralBlock/Spinner";
 import ToastMessage from "../GeneralBlock/ToastMsg";
+import { useTranslation } from 'react-i18next';
 
 export default function Card() {
+  const { t, i18n } = useTranslation();
   const [doctors, setDoctors] = useState([]); 
   const [loading, setLoading] = useState(true); // To handle loading state
   const [error, setError] = useState(null); // To handle any errors
@@ -21,22 +23,22 @@ export default function Card() {
         setDoctors(response.data.doctorsCard || []); // Ensure it's always an array
         setTimeout(() => {
           setLoading(false); // Data loaded
-          setToastMessage({ type: "success", message: "Data loaded successfully!" });
+          setToastMessage({ type: "success", message: t("Data Loaded Successfully!") });
         }, 1500);
       })
       .catch(() => {
-        setError("Failed to fetch doctors data");
+        setError("Failed to Load data");
         setLoading(false); // Set loading to false even if there's an error
-        setToastMessage({ type: "error", message: "Failed to load data." });
+        setToastMessage({ type: "error", message: t("Failed to Load data.") });
       });
   }, []);
 
   if (loading) {
-    return <SpinnerLoading message="Fetching your data, please hold on..." />;
+    return <SpinnerLoading message= {t("loading your data, please hold on...")} />;
   }
 
   if (error) {
-    return <ToastMessage type={"error"} message={error} />;
+    return <ToastMessage type={"error"} message={toastMessage.message} />;
   }
 
   return (
@@ -60,13 +62,13 @@ export default function Card() {
                   className="btn btn-primary"
                   onClick={() => navigate(`/details-doctor/${ele.id}`)}
                 >
-                  Details
+                  {t("Details")}
                 </button>
               </div>
             </div>
           ))
         ) : (
-          <div>No doctors found</div> 
+          <div>{t ("No data found")}</div> 
         )}
       </div>
     </>
