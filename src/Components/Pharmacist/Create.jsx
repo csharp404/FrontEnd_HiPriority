@@ -133,14 +133,14 @@ export default function DoctorForm() {
         <div className="col-8">
           <div className="card shadow-lg p-4 rounded">
             <h2 className="text-center mb-4 text-white bg-primary py-3 rounded-top">
-              Add New Pharmacist
+              {t("Add New Pharmacist")}
             </h2>
             <form onSubmit={handleSubmit}>
               {/* First Name and Last Name Fields */}
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="FirstName" className="form-label">
-                    First Name
+                    {t("First Name")}
                   </label>
                   <input
                     type="text"
@@ -154,7 +154,7 @@ export default function DoctorForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="LastName" className="form-label">
-                    Last Name
+                   {t("Last Name")}
                   </label>
                   <input
                     type="text"
@@ -172,7 +172,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="Password" className="form-label">
-                    Password
+                    {t("Password")}
                   </label>
                   <input
                     type="password"
@@ -186,7 +186,7 @@ export default function DoctorForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="ConfirmPassword" className="form-label">
-                    Confirm Password
+                    {t("Confirm Password")}
                   </label>
                   <input
                     type="password"
@@ -204,7 +204,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="age" className="form-label">
-                    Age
+                    {t("Age")}
                   </label>
                   <input
                     type="number"
@@ -224,7 +224,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="department" className="form-label">
-                    Department
+                    {t("Department")}
                   </label>
                   <select
                     className="form-select form-select-lg"
@@ -247,7 +247,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="experience" className="form-label">
-                    Experience
+                    {t("Experience")}
                   </label>
                   <input
                     type="text"
@@ -265,7 +265,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="phonenumber" className="form-label">
-                    Phone
+                    {t("Phone")}
                   </label>
                   <input
                     type="tel"
@@ -282,7 +282,7 @@ export default function DoctorForm() {
 
                 <div className="col-md-6">
                   <label htmlFor="email" className="form-label">
-                    Email
+                    {t("Email")}
                   </label>
                   <input
                     type="email"
@@ -298,7 +298,7 @@ export default function DoctorForm() {
 
               {/* Gender Fields */}
               <div className="row mb-3">
-                <label className="form-label">Gender</label>
+                <label className="form-label">{t("Gender")}</label>
                 <div
                   className="form-check"
                   style={{ display: "flex", gap: "20px" }}
@@ -314,7 +314,7 @@ export default function DoctorForm() {
                       onChange={handleChange}
                     />
                     <label className="form-check-label" htmlFor="male">
-                      Male
+                      {t("Male")}
                     </label>
                   </div>
                   <div>
@@ -328,7 +328,7 @@ export default function DoctorForm() {
                       onChange={handleChange}
                     />
                     <label className="form-check-label" htmlFor="female">
-                      Female
+                      {t("Female")}
                     </label>
                   </div>
                 </div>
@@ -338,7 +338,7 @@ export default function DoctorForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="cityid" className="form-label">
-                    City
+                    {t("City")}
                   </label>
                   <select
                     className="form-select form-select-lg"
@@ -357,7 +357,7 @@ export default function DoctorForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="areaid" className="form-label">
-                    Area
+                    {t("Area")}
                   </label>
                   <select
                     className="form-select form-select-lg"
@@ -379,7 +379,7 @@ export default function DoctorForm() {
               {/* Role Field */}
               <div className="row mb-3">
                 <label htmlFor="role" className="form-label">
-                  Role
+                  {t("Role")}
                 </label>
                 <select
                   className="form-select form-select-lg"
@@ -390,16 +390,16 @@ export default function DoctorForm() {
                   required
                   disabled
                 >
-                   <option value="1">Doctor</option>
-                  <option value="2">Nurse</option>
-                  <option value="3">Management Staff</option>
-                  <option value="4">Pharmacist</option>
+                   <option value="1">{t("Doctor")}</option>
+                  <option value="2">{t("Nurse")}</option>
+                  <option value="3">{t("Management Staff")}</option>
+                  <option value="4">{t("Pharmacist")}</option>
                 </select>
               </div>
 
               <div className="text-center">
                 <button type="submit" className="btn btn-primary btn-lg">
-                  Add Doctor
+                 {t("Add")}
                 </button>
               </div>
             </form>

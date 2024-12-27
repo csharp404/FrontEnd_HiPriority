@@ -23,18 +23,18 @@ export default function Card() {
         setDoctors(response.data.doctorsCard || []); // Ensure it's always an array
         setTimeout(() => {
           setLoading(false); // Data loaded
-          setToastMessage({ type: "success", message: "Data loaded successfully!" });
+          setToastMessage({ type: "success", message: t("Pharmacist Data Loaded Successfully!") });
         }, 1500);
       })
       .catch(() => {
-        setError("Failed to fetch doctors data");
+        setError(t("Failed To Load Pharmacist Data"));
         setLoading(false); // Set loading to false even if there's an error
-        setToastMessage({ type: "error", message: "Failed to load data." });
+        setToastMessage({ type: "error", message: t("Failed To Load Data.") });
       });
   }, []);
 
   if (loading) {
-    return <SpinnerLoading message="Fetching your data, please hold on..." />;
+    return <SpinnerLoading message={t("Loading Pharmacist Data, Please Hold On...")} />;
   }
 
   if (error) {
@@ -63,13 +63,13 @@ export default function Card() {
                   className="btn btn-primary"
                   onClick={() => navigate(`/details-doctor/${ele.id}`)}
                 >
-                  Details
+                  {t("Details")}
                 </button>
               </div>
             </div>
           ))
         ) : (
-          <div>No doctors found</div> // Fallback if there are no doctors
+          <div>{t("No Pharmacist Data Found")}</div> // Fallback if there are no doctors
         )}
       </div>
     </>

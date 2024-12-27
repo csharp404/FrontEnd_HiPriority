@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./Components/GeneralBlock/Navbar"; // Import your NavBar component
 import './Components/GeneralBlock/i18n';
-
+import Login from './Components/GeneralBlock/Login'
 import CreateD from "./Components/Doctor/Create"; // Your AddDoctor component
 import CardD from "./Components/Doctor/Card";
 import DetailsD from "./Components/Doctor/Details";
 import UpdateD from "./Components/Doctor/Update";
 
-
+import WriteVitalSigns from "./Components/Patient/WriteVitalSigns";
 
 import CreateN from "./Components/Nurse/Create"; // Your AddNurse component
 import CardN from "./Components/Nurse/Card";
@@ -15,20 +15,25 @@ import DetailsN from "./Components/Nurse/Details";
 import UpdateN from "./Components/Nurse/Update";
 
 
-import CreateM from "./Components/Management/Create"; // Your AddNurse component
+import CreateM from "./Components/Management/Create"; // Your Management component
 import CardM from "./Components/Management/Card";
 import DetailsM from "./Components/Management/Details";
 import UpdateM from "./Components/Management/Update";
 
-import CreatePH from "./Components/Pharmacist/Create"; // Your AddNurse component
+import CreatePH from "./Components/Pharmacist/Create"; // Your Pharmacist component
 import CardPH from "./Components/Pharmacist/Card";
 import DetailsPH from "./Components/Pharmacist/Details";
 import UpdatePH from "./Components/Pharmacist/Update";
+
+import AddPatient from "./Components/Patient/AddPatient"
+
+
 function App() {
   return (
-   <BrowserRouter>
+    <BrowserRouter>
    <NavBar/>
       <Routes>
+    <Route path="/login/" element={<Login />} />
   
       <Route path="/update-doctor/:id" element={<UpdateD  />}/>
       <Route path="/create-doctor" element={<CreateD  />}/>
@@ -53,6 +58,8 @@ function App() {
       <Route path="/create-pharmacist" element={<CreatePH  />}/>
       <Route path="/pharmacists" element={<CardPH  />}/>
       <Route path="/details-pharmacist/:id" element={<DetailsPH  />}/>
+
+      <Route path="/create-patient" element={<AddPatient />} />
 
       </Routes>
     </BrowserRouter>
@@ -79,6 +86,7 @@ export default App;
 // // import NurseUpdate from "./Components/Nurse/NurseUpdate";
 // // import NurseDetails from "./Components/Nurse/NurseDetails";
 // // import NurseCreate from "./Components/Nurse/AddNurse";
+
 // // import WriteVitalSigns from "./Components/Patient/WriteVitalSigns";
 // // import GetPrescription from "./Components/Patient/Prescription";
 // // import HistoryVitalSigns from "./Components/Patient/vitalSignsHistory";

@@ -22,7 +22,7 @@ export default function DoctorDetails() {
         setDoctor(response.data.doctorsCard);
       })
       .catch((error) => {
-        console.error(t("Error loading data:"), error);
+        console.error(t("Error Loading Doctor Data:"), error);
       });
   }, [id]);
 
@@ -31,7 +31,7 @@ export default function DoctorDetails() {
     axios
       .delete(`https://localhost:7127/api/user/user-delete/${id}`)
       .then(() => {
-        setToastMessage({ message: t("data deleted successfuly"), type: "success" }); // Set toast message
+        setToastMessage({ message: t("Doctor Data Deleted Successfuly"), type: "success" }); // Set toast message
       });
 
     navigate("/doctors");

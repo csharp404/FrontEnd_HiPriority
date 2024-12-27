@@ -66,7 +66,7 @@ export default function DoctorForm() {
         setFormData(response.data.doctorsCard); // Set form data to fetched doctor info
       })
       .catch((error) => {
-        console.error(t("Error loading doctor data:"), error);
+        console.error(t("Error Loading Doctor Data:"), error);
       });
   }, [id]); // Dependency array ensures this effect runs when the id changes
 
@@ -83,12 +83,12 @@ export default function DoctorForm() {
     axios
       .put(`https://localhost:7127/api/user/user-update`, formData)
       .then(() => {
-        setToastMessage(t("Information updated successfully!")); // Trigger toast message on success
+        setToastMessage(t("Doctor Data Updated Successfully!")); // Trigger toast message on success
         setTimeout(() => setToastMessage(""), 3000); // Clear toast message after 3 seconds
         navigate(`/DoctorDetails/${id}`);
       })
       .catch((error) => {
-        console.error(t("Error updating staff data:"), error);
+        console.error(t("Error Updating Doctor Data:"), error);
       });
   };
 

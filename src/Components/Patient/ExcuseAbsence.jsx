@@ -22,7 +22,7 @@ const ExcuseAbsence = ({ onSubmit }) => {
     if (onSubmit) {
       onSubmit(formData);
     }
-    alert("Excuse submitted successfully!");
+    alert(t("Excuse Submitted Successfully!"));
     setFormData({
       patientName: "",
       duration: "",
@@ -39,11 +39,11 @@ const ExcuseAbsence = ({ onSubmit }) => {
         className="border p-4 rounded shadow-sm bg-light"
         style={{ maxWidth: "600px", margin: "auto" }} // Adjust form width
       >
-        <h2 className="text-center mb-4">Excuse Absence Form</h2>
+        <h2 className="text-center mb-4">{t("Excuse Absence Form")}</h2>
 
         <div className="mb-3">
           <label htmlFor="patientName" className="form-label">
-            Patient Name:
+            {t("Patient Name:")}
           </label>
           <input
             type="text"
@@ -60,7 +60,7 @@ const ExcuseAbsence = ({ onSubmit }) => {
 
         <div className="mb-3">
           <label htmlFor="duration" className="form-label">
-            Duration (days):
+            {t("Duration")} ({t("days")}):
           </label>
           <input
             type="text"
@@ -78,7 +78,7 @@ const ExcuseAbsence = ({ onSubmit }) => {
         <div className="mb-3 row">
           <div className="col-md-6">
             <label htmlFor="startDate" className="form-label">
-              Start Date:
+              {t("Start Date:")}
             </label>
             <input
               type="date"
@@ -92,7 +92,7 @@ const ExcuseAbsence = ({ onSubmit }) => {
           </div>
           <div className="col-md-6">
             <label htmlFor="endDate" className="form-label">
-              End Date:
+              {t("End Date:")}
             </label>
             <input
               type="date"
@@ -108,7 +108,7 @@ const ExcuseAbsence = ({ onSubmit }) => {
 
         <div className="mb-3">
           <label htmlFor="reason" className="form-label">
-            Absence Reason:
+            {t("Absence Reason:")}
           </label>
           <textarea
             id="reason"
@@ -124,7 +124,7 @@ const ExcuseAbsence = ({ onSubmit }) => {
 
         <div className="text-center">
           <button type="submit" className="btn btn-primary">
-            Submit
+            {t("Submit")}
           </button>
         </div>
       </form>

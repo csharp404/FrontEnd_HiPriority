@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-// Declare fixed messages
-const defaultMessages = {
-  success: "Operation Completed Successfully!",
-  error: "An Error Occurred, Please Try Again.",
-  warning: "WARNING! CHECK YOUR INPUT.",
-  info: "This is an Informative Message.",
-};
 
 const ToastMessage = ({ type, message }) => {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [timestamp, setTimestamp] = useState("");
+ 
+ 
+  // Declare fixed messages
+  const defaultMessages = {
+    success: t("Operation Completed Successfully!"),
+    error: t("An Error Occurred, Please Try Again."),
+    warning: t("WARNING! CHECK YOUR INPUT."),
+    info: t("This is an Informative Message."),
+  };
 
   useEffect(() => {
     if (type) {

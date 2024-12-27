@@ -30,18 +30,18 @@ const DrugOrdersManager = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">Warehouse Orders</h1>
+      <h1 className="text-center mb-4">{t("Warehouse Orders")}</h1>
 
       <div className="table-responsive">
         <table className="table table-bordered table-hover">
           <thead className="thead-dark">
             <tr>
-              <th>Serial number</th>
-              <th>Requested By</th>
-              <th>Drug Name</th>
-              <th>Quantity</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>{t("Serial number")}</th>
+              <th>{t("Requested By")}</th>
+              <th>{t("Drug Name")}</th>
+              <th>{t("Quantity")}</th>
+              <th>{t("Status")}</th>
+              <th>{t("Action")}</th>
             </tr>
           </thead>
           <tbody>
@@ -66,7 +66,7 @@ const DrugOrdersManager = () => {
                       className="btn btn-primary btn-sm"
                       onClick={() => markAsFulfilled(order.id)}
                     >
-                      Mark as Fulfilled
+                      {t("Mark as Fulfilled")}
                     </button>
                   )}
                 </td>
@@ -75,7 +75,7 @@ const DrugOrdersManager = () => {
             {orders.length === 0 && (
               <tr>
                 <td colSpan="6" className="text-center">
-                  No Orders to Process.
+                  {t("No Orders to Process.")}
                 </td>
               </tr>
             )}

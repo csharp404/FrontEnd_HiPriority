@@ -35,13 +35,13 @@ export default function WriteVitalSigns() {
         <div className="col-md-8">
           <div className="card shadow-lg">
             <div className="card-header bg-primary text-white text-center">
-              <h3>Vital Signs form</h3>
+              <h3>{t("Vital Signs form")}</h3>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="temperature" className="form-label">
-                    Temperature (°C)
+                    {t("Temperature")} ({t("°C")})
                   </label>
                   <input
                     type="number"
@@ -57,7 +57,7 @@ export default function WriteVitalSigns() {
 
                 <div className="mb-3">
                   <label htmlFor="bloodPressure" className="form-label">
-                    Blood Pressure (mmHg)
+                   {t(" Blood Pressure")} ({t("mmHg")})
                   </label>
                   <input
                     type="text"
@@ -72,7 +72,7 @@ export default function WriteVitalSigns() {
 
                 <div className="mb-3">
                   <label htmlFor="heartRate" className="form-label">
-                    Heart Rate (BPM)
+                    {t("Heart Rate")} ({t("BPM")})
                   </label>
                   <input
                     type="number"
@@ -87,7 +87,7 @@ export default function WriteVitalSigns() {
 
                 <div className="mb-3">
                   <label htmlFor="respiratoryRate" className="form-label">
-                    Respiratory Rate (Breaths/min)
+                    {t("Respiratory Rate")} ({t("Breaths/min")})
                   </label>
                   <input
                     type="number"
@@ -101,7 +101,7 @@ export default function WriteVitalSigns() {
                 </div>
 
                 <button type="submit" className="btn btn-primary w-100 py-2">
-                  Save
+                  {t("Save")}
                 </button>
               </form>
             </div>

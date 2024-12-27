@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const DiagnosisCard = ({ diagnosis }) => {
   if (!diagnosis) {
-    return <p className="text-center text-muted">No diagnosis available.</p>;
+    return <p className="text-center text-muted">{t("No Diagnosis Available.")}</p>;
   }
 
   const { patientId, symptoms, diagnosisText, notes } = diagnosis;
@@ -12,30 +12,30 @@ const DiagnosisCard = ({ diagnosis }) => {
     <div className="container mt-4">
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">
-          <h5 className="mb-0">Diagnosis Details</h5>
+          <h5 className="mb-0">{t("Diagnosis Details")}</h5>
         </div>
         <div className="card-body">
           <div className="mb-3">
-            <strong>Patient ID:</strong>
+            <strong>{t("Patient ID:")}</strong>
             <p className="mb-1">{patientId}</p>
           </div>
           <div className="mb-3">
-            <strong>Symptoms:</strong>
+            <strong>{t("Symptoms:")}</strong>
             <p className="mb-1">{symptoms}</p>
           </div>
           <div className="mb-3">
-            <strong>Diagnosis:</strong>
+            <strong>{t("Diagnosis:")}</strong>
             <p className="mb-1">{diagnosisText}</p>
           </div>
           <div className="mb-3">
-            <strong>Notes:</strong>
-            <p className="mb-1">{notes || "No additional notes provided."}</p>
+            <strong>{t("Notes:")}</strong>
+            <p className="mb-1">{notes || t("No Notes Provided.")}</p>
           </div>
         </div>
         <div className="card-footer d-flex justify-content-between align-items-center">
-          <span className="text-muted">Last updated: {new Date().toLocaleDateString()}</span>
+          <span className="text-muted">{t("Last updated:")} {new Date().toLocaleDateString()}</span>
           <Link to={`/edit-diagnosis`} className="btn btn-primary btn-sm">
-            Edit
+            {t("Edit")}
           </Link>
         </div>
       </div>

@@ -41,7 +41,7 @@ const DrugWarehouse = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">Drug Warehouse</h1>
+      <h1 className="text-center mb-4">{t("Drug Warehouse")}</h1>
 
       {/* Search Bar */}
       <div className="mb-4">
@@ -59,10 +59,10 @@ const DrugWarehouse = () => {
         <table className="table table-bordered table-hover">
           <thead className="thead-dark">
             <tr>
-              <th>Serial Number</th>
-              <th>Drug Name</th>
-              <th>Quantity</th>
-              <th>Expiry Date</th>
+              <th>{t("Serial Number")}</th>
+              <th>{t("Drug Name")}</th>
+              <th>{t("Quantity")}</th>
+              <th>{t("Expiry Date")}</th>
             </tr>
           </thead>
           <tbody>
@@ -77,7 +77,7 @@ const DrugWarehouse = () => {
             {filteredDrugs.length === 0 && (
               <tr>
                 <td colSpan="4" className="text-center">
-                  No drugs found.
+                  {t("No Drugs Found.")}
                 </td>
               </tr>
             )}
@@ -87,11 +87,11 @@ const DrugWarehouse = () => {
 
       {/* Add Drug Form */}
       <div className="card mt-4">
-        <div className="card-header">Add New Drug</div>
+        <div className="card-header">{t("Add New Drug")}</div>
         <div className="card-body">
           <form onSubmit={handleAddDrug}>
             <div className="form-group">
-              <label htmlFor="name">Drug Name</label>
+              <label htmlFor="name">{t("Drug Name")}</label>
               <input
                 type="text"
                 className="form-control"
@@ -103,7 +103,7 @@ const DrugWarehouse = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="quantity">Quantity</label>
+              <label htmlFor="quantity">{("Quantity")}</label>
               <input
                 type="number"
                 className="form-control"
@@ -115,7 +115,7 @@ const DrugWarehouse = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="expiry">Expiry Date</label>
+              <label htmlFor="expiry">{t("Expiry Date")}</label>
               <input
                 type="date"
                 className="form-control"
@@ -127,7 +127,7 @@ const DrugWarehouse = () => {
               />
             </div>
             <button type="submit" className="btn btn-primary mt-4">
-              Add
+              {t("Add")}
             </button>
           </form>
         </div>

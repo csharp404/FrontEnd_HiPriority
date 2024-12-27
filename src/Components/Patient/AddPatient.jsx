@@ -37,14 +37,14 @@ export default function PatientForm() {
         <div className="col-8">
           <div className="card shadow-lg p-4 rounded">
             <h2 className="text-center mb-4 text-white bg-primary py-3 rounded-top">
-              Add New Patient
+              {t("Add New Patient")}
             </h2>
             <form onSubmit={handleSubmit}>
               {/* Patient Name */}
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="firstName" className="form-label">
-                    First Name
+                    {t("First Name")}
                   </label>
                   <input
                     type="text"
@@ -58,7 +58,7 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="lastName" className="form-label">
-                    Last Name
+                    {t("Last Name")}
                   </label>
                   <input
                     type="text"
@@ -76,7 +76,7 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="admissionDate" className="form-label">
-                    Admission Date
+                    {t("Admission Date")}
                   </label>
                   <input
                     type="date"
@@ -90,7 +90,7 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="department" className="form-label">
-                    Department
+                    {t("Department")}
                   </label>
                   <input
                     type="text"
@@ -108,7 +108,7 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="pcdName" className="form-label">
-                    PCD Name
+                   {t(" PCD Name")}
                   </label>
                   <input
                     type="text"
@@ -122,7 +122,7 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="age" className="form-label">
-                    Age
+                    {t("Age")}
                   </label>
                   <input
                     type="number"
@@ -140,7 +140,7 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="phone" className="form-label">
-                    Phone
+                    {t("Phone")}
                   </label>
                   <input
                     type="tel"
@@ -154,7 +154,7 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="gender" className="form-label">
-                    Gender
+                    {t("Gender")}
                   </label>
                   <select
                     className="form-select form-select-lg"
@@ -164,9 +164,9 @@ export default function PatientForm() {
                     onChange={handleChange}
                     required
                   >
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option value="">{t("Select Gender")}</option>
+                    <option value="Male">{t("Male")}</option>
+                    <option value="Female">{t("Female")}</option>
                   </select>
                 </div>
               </div>
@@ -175,7 +175,7 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="address" className="form-label">
-                    Address
+                    {t("Address")}
                   </label>
                   <input
                     type="text"
@@ -189,7 +189,7 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="details" className="form-label">
-                    Details
+                    {t("Details")}
                   </label>
                   <textarea
                     className="form-control form-control-lg"
@@ -206,7 +206,7 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="legalGuardianName" className="form-label">
-                    Legal Guardian Name
+                    {t("Legal Guardian Name")}
                   </label>
                   <input
                     type="text"
@@ -220,7 +220,7 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="legalGuardianPhone" className="form-label">
-                    Legal Guardian Phone
+                    {t("Legal Guardian Phone")}
                   </label>
                   <input
                     type="tel"
@@ -238,7 +238,7 @@ export default function PatientForm() {
                 type="submit"
                 className="btn btn-success btn-lg w-100 mt-4"
               >
-                Add
+                {t("Add")}
               </button>
             </form>
           </div>

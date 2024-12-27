@@ -40,7 +40,7 @@ export default function d () {
   };
 
   const handleEditSubmit = () => {
-    console.log("Updated item:", formData);
+    console.log(t("Updated item:"), formData);
     setShowEditModal(false); // Close the modal after submission
   };
 
@@ -58,18 +58,18 @@ export default function d () {
       <table className="table table-hover">
         <thead>
           <tr className="table-primary">
-            <th scope="col">Name</th>
-            <th scope="col">Admission Date</th>
-            <th scope="col">Department</th>
-            <th scope="col">PCD Name</th>
-            <th scope="col">Age</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Gender</th>
-            <th scope="col">Email</th>
-            <th scope="col">Details</th>
-            <th scope="col">Address</th>
-            <th scope="col">Profile</th>
-            <th scope="col">Actions</th>
+            <th scope="col">{t("Name")}</th>
+            <th scope="col">{t("Admission Date")}</th>
+            <th scope="col">{t("Department")}</th>
+            <th scope="col">{t("PCD Name")}</th>
+            <th scope="col">{t("Age")}</th>
+            <th scope="col">{t("Phone")}</th>
+            <th scope="col">{t("Gender")}</th>
+            <th scope="col">{t("Email")}</th>
+            <th scope="col">{t("Details")}</th>
+            <th scope="col">{t("Address")}</th>
+            <th scope="col">{t("Profile")}</th>
+            <th scope="col">{t("Actions")}</th>
           </tr>
         </thead>
         <tbody>
@@ -102,7 +102,7 @@ export default function d () {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    Manage
+                    {t("Manage")}
                   </button>
                   <ul
                     className="dropdown-menu"
@@ -126,7 +126,7 @@ export default function d () {
                           })
                         }
                       >
-                        Edit
+                        {t("Edit")}
                       </button>
                     </li>
                     <li>
@@ -135,7 +135,7 @@ export default function d () {
                         type="button"
                         onClick={() => handleDeleteClick("John Doe")}
                       >
-                        Delete
+                        {t("Delete")}
                       </button>
                     </li>
                     <li>
@@ -144,7 +144,7 @@ export default function d () {
                         type="button"
                         onClick={() => Navigate("/write-prescription")}
                       >
-                        Issue Prescription
+                        {t("Issue Prescription")}
                       </button>
                     </li>
                     <li>
@@ -153,7 +153,7 @@ export default function d () {
                         type="button"
                         onClick={() => Navigate("/Write-VitalSigns")}
                       >
-                        Issue Vital Signs
+                        {t("Issue Vital Signs")}
                       </button>
                     </li>
                     <li>
@@ -162,7 +162,7 @@ export default function d () {
                         type="button"
                         onClick={() => Navigate("/write-diagnose")}
                       >
-                        Issue diagnosis
+                        {t("Issue diagnosis")}
                       </button>
                     </li>
                     <li>
@@ -171,7 +171,7 @@ export default function d () {
                         type="button"
                         onClick={() => Navigate("/issue-ExcuseAbsence")}
                       >
-                        Issue Absence Excuse
+                        {t("Issue Absence Excuse")}
                       </button>
                     </li>
                     <li>
@@ -180,7 +180,7 @@ export default function d () {
                         type="button"
                         onClick={() => Navigate("/get-prescription")}
                       >
-                        Display prescription
+                        {t("Display prescription")}
                       </button>
                     </li>
 
@@ -190,7 +190,7 @@ export default function d () {
                         type="button"
                         onClick={() => Navigate("/get-VitalSigns")}
                       >
-                        Display Vital Signs
+                        {t("Display Vital Signs")}
                       </button>
                     </li>
                     <li>
@@ -199,7 +199,7 @@ export default function d () {
                         type="button"
                         onClick={() => Navigate("/get-diagnose")}
                       >
-                        Display diagnosis
+                        {t("Display diagnosis")}
                       </button>
                     </li>
                    
@@ -227,7 +227,7 @@ export default function d () {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="deleteModalLabel">
-                  CONFIRM DELETION
+                  {t("CONFIRM DELETION")}
                 </h5>
                 <button
                   type="button"
@@ -238,8 +238,7 @@ export default function d () {
                 ></button>
               </div>
               <div className="modal-body">
-              Are you sure you want to delete this record?
-              </div>
+            {t("Are you sure you want to delete this record?")}</div>
               <div className="modal-footer">
                 <button
                   type="button"
@@ -247,14 +246,14 @@ export default function d () {
                   data-bs-dismiss="modal"
                   onClick={handleDeleteCancel}
                 >
-                  Cancel
+                  {t("Cancel")}
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger"
                   onClick={handleDeleteConfirm}
                 >
-                  Confirm
+                  {t("Confirm")}
                 </button>
               </div>
             </div>
@@ -275,7 +274,7 @@ export default function d () {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="editModalLabel">
-                  Edit Information
+                  {t("Edit Information")}
                 </h5>
                 <button
                   type="button"
@@ -294,7 +293,7 @@ export default function d () {
                 >
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label">
-                      Name
+                      {t("Name")}
                     </label>
                     <input
                       type="text"
@@ -307,7 +306,7 @@ export default function d () {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="admissionDate" className="form-label">
-                      Admission Date
+                      {t("Admission Date")}
                     </label>
                     <input
                       type="date"
@@ -320,7 +319,7 @@ export default function d () {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="department" className="form-label">
-                      Department
+                      {t("Department")}
                     </label>
                     <input
                       type="text"
@@ -338,10 +337,10 @@ export default function d () {
                       className="btn btn-secondary"
                       onClick={() => setShowEditModal(false)}
                     >
-                      Close
+                      {t("Close")}
                     </button>
                     <button type="submit" className="btn btn-primary">
-                      Save
+                      {t("Save")}
                     </button>
                   </div>
                 </form>

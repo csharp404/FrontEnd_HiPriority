@@ -63,12 +63,12 @@ export default function Login() {
               type="email"
               className="form-control rounded-3"
               id="exampleInputEmail1"
-              placeholder="Enter email"
+              placeholder= {t("Enter email")}
               value={email}
               onChange={handleEmailChange}
             />
             <small id="emailHelp" className="form-text text-muted">
-              {t("We'll never share your information with anyone else.")}
+              {t("We'll never share your information with anyone else")}
             </small>
           </div>
           <div className="mb-4">

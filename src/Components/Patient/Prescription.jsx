@@ -13,21 +13,21 @@ export default function PrescriptionDetails() {
         <div className="col-md-8">
           <div className="card shadow-lg">
             <div className="card-header bg-primary text-white text-center">
-              <h3>Prescription Details</h3>
+              <h3>{("Prescription Details")}</h3>
             </div>
             <div className="card-body">
               <div className="mb-3">
-                <strong>Medication:</strong>
+                <strong>{("Medication:")}</strong>
                 <p>{prescription.medication}</p>
               </div>
 
               <div className="mb-3">
-                <strong>Dosage:</strong>
+                <strong>{("Dosage:")}</strong>
                 <p>{prescription.dosage}</p>
               </div>
 
               <div className="mb-3">
-                <strong>Instructions:</strong>
+                <strong>{("Instructions:")}</strong>
                 <p>{prescription.instructions}</p>
               </div>
             </div>
