@@ -33,7 +33,7 @@ export default function DoctorForm() {
         setDepartments(response.data);
       })
       .catch((error) => {
-        console.error(t("Error loading departments:"), error);
+        console.error(t("Error Loading Departments"), error);
       });
 
     axios
@@ -42,7 +42,7 @@ export default function DoctorForm() {
         setCities(response.data);
       })
       .catch((error) => {
-        console.error("Error loading cities:", error);
+        console.error("Error Loading Cities", error);
       });
   }, []);
 
@@ -61,7 +61,7 @@ export default function DoctorForm() {
           setAreas(response.data);
         })
         .catch((error) => {
-          console.error("Error loading areas:", error);
+          console.error("Error Loading Areas", error);
         });
     } else {
       setAreas([]); // Clear areas if no city is selected
@@ -398,7 +398,7 @@ export default function DoctorForm() {
 
               <div className="text-center">
                 <button type="submit" className="btn btn-primary btn-lg">
-                  {t("Add Doctor")}
+                  {t("Add")}
                 </button>
               </div>
             </form>

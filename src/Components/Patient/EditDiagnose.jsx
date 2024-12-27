@@ -16,17 +16,17 @@ const EditableDiagnosisForm = ({ initialDiagnosis, onSubmit }) => {
     if (onSubmit) {
       onSubmit(formData);
     }
-    alert('Diagnosis updated successfully!');
+    alert(t('Diagnosis Updated Successfully!'));
   };
 
   return (
     <div className="container mt-4">
       <form onSubmit={handleSubmit} className="border p-4 rounded shadow-sm bg-light">
-        <h2 className="text-center mb-4">Edit Diagnosis</h2>
+        <h2 className="text-center mb-4">{t("Edit Diagnosis")}</h2>
 
         <div className="mb-3">
           <label htmlFor="patientId" className="form-label">
-            Patient ID:
+           {t(" Patient ID:")}
           </label>
           <input
             type="text"
@@ -42,7 +42,7 @@ const EditableDiagnosisForm = ({ initialDiagnosis, onSubmit }) => {
 
         <div className="mb-3">
           <label htmlFor="symptoms" className="form-label">
-            Symptoms:
+            {t("Symptoms:")}
           </label>
           <textarea
             id="symptoms"
@@ -57,7 +57,7 @@ const EditableDiagnosisForm = ({ initialDiagnosis, onSubmit }) => {
 
         <div className="mb-3">
           <label htmlFor="diagnosis" className="form-label">
-            Diagnosis:
+            {t("Diagnosis:")}
           </label>
           <input
             type="text"
@@ -73,7 +73,7 @@ const EditableDiagnosisForm = ({ initialDiagnosis, onSubmit }) => {
 
         <div className="mb-3">
           <label htmlFor="notes" className="form-label">
-            Additional Notes:
+            {t("Notes:")}
           </label>
           <textarea
             id="notes"
@@ -87,7 +87,7 @@ const EditableDiagnosisForm = ({ initialDiagnosis, onSubmit }) => {
 
         <div className="text-center">
           <button type="submit" className="btn btn-success">
-            Save Changes
+            {t("Save Changes")}
           </button>
         </div>
       </form>

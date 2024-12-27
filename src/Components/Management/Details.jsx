@@ -22,7 +22,7 @@ export default function DoctorDetails() {
         setDoctor(response.data.doctorsCard);
       })
       .catch((error) => {
-        console.error("Error fetching doctor data:", error);
+        console.error(t("Error Loading Staff Data:"), error);
       });
   }, [id]);
 
@@ -31,7 +31,7 @@ export default function DoctorDetails() {
     axios
       .delete(`https://localhost:7127/api/user/user-delete/${id}`)
       .then(() => {
-        setToastMessage({ message: "Successful deletion", type: "success" }); // Set toast message
+        setToastMessage({ message:t( "Successful Deletion"), type: "success" }); // Set toast message
       });
 
     navigate("/staff");
@@ -50,13 +50,13 @@ export default function DoctorDetails() {
       {/* Render ToastMessage */}
       <div className="card shadow-lg">
         <div className="card-header bg-primary text-white">
-          <h2 className="mb-0">Doctor Details</h2>
+          <h2 className="mb-0">{t("Staff Details")}</h2>
         </div>
         <div className="card-body">
           <div className="row">
             {doctor.firstName && doctor.lastName && (
               <div className="col-md-6 mb-4">
-                <h5 className="fw-bold">Name:</h5>
+                <h5 className="fw-bold">{t("Name:")}</h5>
                 <p>
                   {doctor.firstName} {doctor.lastName}
                 </p>
@@ -64,43 +64,43 @@ export default function DoctorDetails() {
             )}
             {doctor.hiredate && (
               <div className="col-md-6 mb-4">
-                <h5 className="fw-bold">Hire Date:</h5>
+                <h5 className="fw-bold">{t("Hire Date:")}</h5>
                 <p>{doctor.hiredate}</p>
               </div>
             )}
             {doctor.experience && (
               <div className="col-md-6 mb-4">
-                <h5 className="fw-bold">Experience:</h5>
+                <h5 className="fw-bold">{t("Experience:")}</h5>
                 <p>{doctor.experience}</p>
               </div>
             )}
             {doctor.age && (
               <div className="col-md-6 mb-4">
-                <h5 className="fw-bold">Age:</h5>
+                <h5 className="fw-bold">{t("Age:")}</h5>
                 <p>{doctor.age}</p>
               </div>
             )}
             {doctor.phoneNumber && (
               <div className="col-md-6 mb-4">
-                <h5 className="fw-bold">Phone:</h5>
+                <h5 className="fw-bold">{t("Phone:")}</h5>
                 <p>{doctor.phoneNumber}</p>
               </div>
             )}
             {doctor.gender !== undefined && (
               <div className="col-md-6 mb-4">
-                <h5 className="fw-bold">Gender:</h5>
+                <h5 className="fw-bold">{t("Gender:")}</h5>
                 <p>{doctor.gender ? "Male" : "Female"}</p>
               </div>
             )}
             {doctor.email && (
               <div className="col-md-6 mb-4">
-                <h5 className="fw-bold">Email:</h5>
+                <h5 className="fw-bold">{t("Email:")}</h5>
                 <p>{doctor.email}</p>
               </div>
             )}
             {doctor.address && (
               <div className="col-md-6 mb-4">
-                <h5 className="fw-bold">Address:</h5>
+                <h5 className="fw-bold">{t("Address:")}</h5>
                 <p>{doctor.address}</p>
               </div>
             )}
@@ -112,14 +112,14 @@ export default function DoctorDetails() {
               className="btn btn-primary"
               onClick={() => navigate(`/update/${id}`)}
             >
-              Edit
+              {t("Edit")}
             </button>
             <button
               type="button"
               className="btn btn-danger"
               onClick={() => setShowDeleteModal(true)}
             >
-              Delete
+              {t("Delete")}
             </button>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function DoctorDetails() {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h1 className="modal-title fs-5">CONFIRM DELETION</h1>
+                <h1 className="modal-title fs-5">{t("CONFIRM DELETION")}</h1>
                 <button
                   type="button"
                   className="btn-close"
@@ -151,14 +151,14 @@ export default function DoctorDetails() {
                   className="btn btn-secondary"
                   onClick={() => setShowDeleteModal(false)}
                 >
-                  Cancel
+                  {t("Cancel")}
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger"
                   onClick={handleDelete}
                 >
-                  Confirm
+                  {t("Confirm")}
                 </button>
               </div>
             </div>

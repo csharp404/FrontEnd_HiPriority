@@ -31,15 +31,15 @@ const DrugOrderForm = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">Drug Order Form</h1>
+      <h1 className="text-center mb-4">{t("Drug Order Form")}</h1>
 
       {/* Order Form */}
       <div className="card">
-        <div className="card-header">Place a New Order</div>
+        <div className="card-header">{t("Place a New Order")}</div>
         <div className="card-body">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="doctorName">Requested By</label>
+              <label htmlFor="doctorName">{t("Requested By")}</label>
               <input
                 type="text"
                 className="form-control"
@@ -51,7 +51,7 @@ const DrugOrderForm = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="drugName">Drug Name</label>
+              <label htmlFor="drugName">{t("Drug Name")}</label>
               <input
                 type="text"
                 className="form-control"
@@ -63,7 +63,7 @@ const DrugOrderForm = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="quantity">Quantity</label>
+              <label htmlFor="quantity">{t("Quantity")}</label>
               <input
                 type="number"
                 className="form-control"
@@ -75,7 +75,7 @@ const DrugOrderForm = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="comments">Comments</label>
+              <label htmlFor="comments">{t("Comments")}</label>
               <textarea
                 className="form-control"
                 id="comments"
@@ -86,7 +86,7 @@ const DrugOrderForm = () => {
               ></textarea>
             </div>
             <button type="submit" className="btn btn-primary mt-5">
-              Submit
+              {t("Submit")}
             </button>
           </form>
         </div>
@@ -94,19 +94,19 @@ const DrugOrderForm = () => {
 
       {/* Orders List */}
       <div className="mt-4">
-        <h2>Order History</h2>
+        <h2>{("Order History")}</h2>
         {orders.length === 0 ? (
-          <p className="text-muted">No Orders Placed Yet.</p>
+          <p className="text-muted">{t("No Orders Placed Yet.")}</p>
         ) : (
           <div className="table-responsive">
             <table className="table table-bordered table-hover">
               <thead className="thead-light">
                 <tr>
-                  <th>Serial Number</th>
-                  <th>Pharmacist's Name</th>
-                  <th>Drug Name</th>
-                  <th>Quantity</th>
-                  <th>Comments</th>
+                  <th>{t("Serial Number")}</th>
+                  <th>{t("Pharmacist's Name")}</th>
+                  <th>{t("Drug Name")}</th>
+                  <th>{t("Quantity")}</th>
+                  <th>{t("Comments")}</th>
                 </tr>
               </thead>
               <tbody>

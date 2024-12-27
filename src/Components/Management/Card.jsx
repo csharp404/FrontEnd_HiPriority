@@ -8,43 +8,40 @@ import { useTranslation } from 'react-i18next';
 
 export default function Card() {
   const { t, i18n } = useTranslation();
-  const [doctors, setDoctors] = useState([]); // Initialize as an empty array
-  const [loading, setLoading] = useState(true); // To handle loading state
-  const [error, setError] = useState(null); // To handle any errors
-  const [toastMessage, setToastMessage] = useState(null); // State to handle toast visibility
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [toastMessage, setToastMessage] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    
-    axios
-      .get("https://localhost:7127/api/User/users/3")
-      .then((response) => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await axios.get("https://localhost:7127/api/User/users/3");
         console.log(response.data.doctorsCard);
-        setDoctors(response.data.doctorsCard || []); // Ensure it's always an array
-        setTimeout(() => {
-          setLoading(false); // Data loaded
-          setToastMessage({ type: "success", message: "Data loaded successfully!" });
-        }, 1500);
-      })
-      .catch(() => {
-        setError("Failed to fetch doctors data");
-        setLoading(false); // Set loading to false even if there's an error
-        setToastMessage({ type: "error", message: "Failed to load data." });
-      });
+        setDoctors(response.data.doctorsCard || []);
+        setToastMessage({ type: "success", message: t("Staff Data Loaded Successfully!") });
+      } catch (error) {
+        setError(t("Failed To Load Staff Data"));
+        setToastMessage({ type: "error", message: t("Failed to Load Staff Data.") });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
   }, []);
 
   if (loading) {
-    return <SpinnerLoading message="Fetching your data, please hold on..." />;
+    return <SpinnerLoading message={t("Loading Staff Data, Please Hold on...")} />;
   }
 
   if (error) {
-    return <ToastMessage type={"error"} message={error} />;
-    // Error message if there's a problem fetching data
+    return <ToastMessage type="error" message={error} />;
   }
 
   return (
     <>
-      {/* Conditionally render ToastMessage if it exists */}
       {toastMessage && <ToastMessage type={toastMessage.type} message={toastMessage.message} />}
 
       <div className="d-flex flex-wrap">
@@ -53,23 +50,23 @@ export default function Card() {
             <div className="card m-4" style={{ width: "18rem" }} key={ele.id}>
               <img
                 className="card-img-top m-1"
-                src={ele.imgpath}
+                src={ele.imgpath || "/default-image.png"} // Fallback for missing image
                 alt="Doctor illustration"
               />
               <div className="card-body">
-                <h5 className="card-title">{ele.name}</h5>
-                <p className="card-text">{ele.description}</p>
+                <h5 className="card-title">{ele.name || "Unknown Name"}</h5>
+                <p className="card-text">{ele.description || t("No description available.")}</p>
                 <button
                   className="btn btn-primary"
                   onClick={() => navigate(`/details-doctor/${ele.id}`)}
                 >
-                  Details
+                  {t("Details")}
                 </button>
               </div>
             </div>
           ))
         ) : (
-          <div>No doctors found</div> // Fallback if there are no doctors
+          <div>{t("No Staff Data Found")}</div>
         )}
       </div>
     </>

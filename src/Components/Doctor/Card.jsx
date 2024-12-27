@@ -23,18 +23,18 @@ export default function Card() {
         setDoctors(response.data.doctorsCard || []); // Ensure it's always an array
         setTimeout(() => {
           setLoading(false); // Data loaded
-          setToastMessage({ type: "success", message: t("Data Loaded Successfully!") });
+          setToastMessage({ type: "success", message: t("Doctor Data Loaded Successfully!") });
         }, 1500);
       })
       .catch(() => {
-        setError("Failed to Load data");
+        setError(t("Failed To Load Doctor Data"));
         setLoading(false); // Set loading to false even if there's an error
-        setToastMessage({ type: "error", message: t("Failed to Load data.") });
+        setToastMessage({ type: "error", message: t("Failed To Load Doctor Data.") });
       });
   }, []);
 
   if (loading) {
-    return <SpinnerLoading message= {t("loading your data, please hold on...")} />;
+    return <SpinnerLoading message= {t("Loading Doctor Data, Please Hold On...")} />;
   }
 
   if (error) {
@@ -68,7 +68,7 @@ export default function Card() {
             </div>
           ))
         ) : (
-          <div>{t ("No data found")}</div> 
+          <div>{t ("No Doctor Data Found")}</div> 
         )}
       </div>
     </>

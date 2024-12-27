@@ -19,17 +19,17 @@ export default function VitalSignsHistory() {
         <div className="col-md-8">
           <div className="card shadow-lg">
             <div className="card-header bg-primary text-white text-center">
-              <h3>Medical History</h3>
+              <h3>{t("Medical History")}</h3>
             </div>
             <div className="card-body">
               <table className="table table-striped">
                 <thead>
                   <tr>
-                    <th>Date</th>
-                    <th>Temperature (°C)</th>
-                    <th>Blood Pressure (mmHg)</th>
-                    <th>Heart Rate (bpm)</th>
-                    <th>Respiratory Rate (breaths/min)</th>
+                    <th>{t("Date")}</th>
+                    <th>{t("Temperature")} (°C)</th>
+                    <th>{t("Blood Pressure")} (mmHg)</th>
+                    <th>{t("Heart Rate")} (bpm)</th>
+                    <th>{t("Respiratory Rate")} (breaths/min)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -45,18 +45,18 @@ export default function VitalSignsHistory() {
                 </tbody>
               </table>
               <div className="mt-4">
-                <h5>Statistics</h5>
+                <h5>{t("Statistics")}</h5>
                 <p>
-                  <strong>Average Temperature:</strong> {calculateAverage("temperature")} °C
+                  <strong>{t("Average Temperature:")}</strong> {calculateAverage("temperature")} °C
                 </p>
                 <p>
-                  <strong>Average Blood Pressure:</strong> {calculateAverage("bloodPressure")} mmHg
+                  <strong>{t("Average Blood Pressure:")}</strong> {calculateAverage("bloodPressure")} mmHg
                 </p>
                 <p>
-                  <strong>Average Heart Rate:</strong> {calculateAverage("heartRate")} bpm
+                  <strong>{t("Average Heart Rate:")}</strong> {calculateAverage("heartRate")} bpm
                 </p>
                 <p>
-                  <strong>Average Respiratory Rate:</strong> {calculateAverage("respiratoryRate")} breaths/min
+                  <strong>{t("Average Respiratory Rate:")}</strong> {calculateAverage("respiratoryRate")} breaths/min
                 </p>
               </div>
             </div>

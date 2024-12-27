@@ -20,7 +20,7 @@ const DiagnosesForm = ({ onSubmit }) => {
     if (onSubmit) {
       onSubmit(formData);
     }
-    alert("Diagnosis submitted successfully!");
+    alert(t("Diagnosis Submitted Successfully!"));
     setFormData({
       symptoms: "",
       diagnosis: "",
@@ -34,11 +34,11 @@ const DiagnosesForm = ({ onSubmit }) => {
         onSubmit={handleSubmit}
         className="border p-4 rounded shadow-sm bg-light"
       >
-        <h2 className="text-center mb-4">Diagnosis Form</h2>
+        <h2 className="text-center mb-4">{t("Diagnosis Form")}</h2>
 
         <div className="mb-3">
           <label htmlFor="symptoms" className="form-label">
-            Symptoms:
+            {t("Symptoms:")}
           </label>
           <textarea
             id="symptoms"
@@ -53,7 +53,7 @@ const DiagnosesForm = ({ onSubmit }) => {
 
         <div className="mb-3">
           <label htmlFor="diagnosis" className="form-label">
-            Diagnosis:
+            {t("Diagnosis:")}
           </label>
           <input
             type="text"
@@ -69,7 +69,7 @@ const DiagnosesForm = ({ onSubmit }) => {
 
         <div className="mb-3">
           <label htmlFor="notes" className="form-label">
-            Notes:
+           {t(" Notes:")}
           </label>
           <textarea
             id="notes"
@@ -83,7 +83,7 @@ const DiagnosesForm = ({ onSubmit }) => {
 
         <div className="text-center">
           <button type="submit" className="btn btn-primary">
-            Submit
+            {t("Submit")}
           </button>
         </div>
       </form>
