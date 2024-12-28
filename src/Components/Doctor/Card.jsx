@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Filter from "../GeneralBlock/Filter";
+
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SpinnerLoading from "../GeneralBlock/Spinner";
@@ -7,7 +7,7 @@ import ToastMessage from "../GeneralBlock/ToastMsg";
 import { useTranslation } from 'react-i18next';
 
 export default function Card() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [doctors, setDoctors] = useState([]); 
   const [loading, setLoading] = useState(true); // To handle loading state
   const [error, setError] = useState(null); // To handle any errors
@@ -31,7 +31,7 @@ export default function Card() {
         setLoading(false); // Set loading to false even if there's an error
         setToastMessage({ type: "error", message: t("Failed To Load Doctor Data.") });
       });
-  }, []);
+  }, [t]);
 
   if (loading) {
     return <SpinnerLoading message= {t("Loading Doctor Data, Please Hold On...")} />;

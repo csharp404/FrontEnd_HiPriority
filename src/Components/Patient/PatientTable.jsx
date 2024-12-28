@@ -1,60 +1,56 @@
-import { useState } from "react";
-import Filter from "../GeneralBlock/Filter";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import axios from "axios";
+import EditPatient from '../GeneralBlock/EditPatient';
 
-export default function d () {
-  const Navigate = useNavigate();
+export default function PatientList() {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [patients, setPatients] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    admissionDate: "",
-    department: "",
-    pcdName: "",
-    age: "",
-    phone: "",
-    gender: "",
-    email: "",
-    address: "",
-  });
+  const [refreshKey, setRefreshKey] = useState(0); // To trigger re-fetch and re-render
+
+  // Fetch patients on component mount and whenever refreshKey changes
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await fetch("https://localhost:7127/api/Patient/Get");
+        const data = await response.json();
+        setPatients(data.patients || []);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchPatients();
+  }, [refreshKey]); // Re-fetch patients whenever refreshKey changes
 
   const handleDeleteClick = (item) => {
-    setSelectedItem(item); // Store the item to be deleted
-    setShowDeleteModal(true); // Show the confirmation modal
+    setSelectedItem(item);
+    setShowDeleteModal(true);
   };
 
-  const handleDeleteConfirm = () => {
-    console.log("Deleted item:", selectedItem);
-    setShowDeleteModal(false);
+  const handleDeleteConfirm = async () => {
+    try {
+      const response = await axios.delete(`https://localhost:7127/api/Patient/Delete/${selectedItem.id}`);
+      if (response.status === 200) {
+        setPatients(patients.filter((patient) => patient.id !== selectedItem.id));
+      }
+    } catch (error) {
+      console.error("Error deleting patient:", error);
+    } finally {
+      setShowDeleteModal(false);
+    }
   };
 
   const handleDeleteCancel = () => {
     setShowDeleteModal(false);
   };
 
-  const handleEditClick = (item) => {
-    setSelectedItem(item); // Store the item to be edited
-    setFormData({ ...item }); // Pre-fill the form with the item data
-    setShowEditModal(true); // Show the edit modal
-  };
-
-  const handleEditSubmit = () => {
-    console.log(t("Updated item:"), formData);
-    setShowEditModal(false); // Close the modal after submission
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
   return (
     <>
-      <Filter />
       <table className="table table-hover">
         <thead>
           <tr className="table-primary">
@@ -65,152 +61,31 @@ export default function d () {
             <th scope="col">{t("Age")}</th>
             <th scope="col">{t("Phone")}</th>
             <th scope="col">{t("Gender")}</th>
-            <th scope="col">{t("Email")}</th>
-            <th scope="col">{t("Details")}</th>
             <th scope="col">{t("Address")}</th>
-            <th scope="col">{t("Profile")}</th>
             <th scope="col">{t("Actions")}</th>
           </tr>
         </thead>
         <tbody>
-          <tr className="table-light" style={{ cursor: "pointer" }}>
-            <td>John Doe</td>
-            <td>2024-11-20</td>
-            <td>Cardiology</td>
-            <td>Dr. Smith</td>
-            <td>30</td>
-            <td>123-456-7890</td>
-            <td>Male</td>
-            <td>johndoe@example.com</td>
-            <td>Details</td>
-            <td>123 Main St</td>
-            <td>Profile</td>
-            <td>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <div className="dropdown">
-                  <button
-                    className="btn btn-info dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    {t("Manage")}
+          {patients.map((patient) => (
+            <tr key={patient.id} className="table-light" style={{ cursor: "pointer" }}>
+              <td>{patient.name}</td>
+              <td>{new Date(patient.admissionDate).toLocaleString()}</td>
+              <td>{patient.department}</td>
+              <td>{patient.pcd}</td>
+              <td>{patient.age}</td>
+              <td>{patient.phoneNumber}</td>
+              <td>{patient.gender == "Male" ? t("Male") : t("Female")}</td>
+              <td>{patient.address}</td>
+              <td>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button className="btn btn-danger" onClick={() => handleDeleteClick(patient)}>
+                    {t("Delete")}
                   </button>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton"
-                  >
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() =>
-                          handleEditClick({
-                            name: "John Doe",
-                            admissionDate: "2024-11-20",
-                            department: "Cardiology",
-                            pcdName: "Dr. Smith",
-                            age: "30",
-                            phone: "123-456-7890",
-                            gender: "Male",
-                            email: "johndoe@example.com",
-                            address: "123 Main St",
-                          })
-                        }
-                      >
-                        {t("Edit")}
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => handleDeleteClick("John Doe")}
-                      >
-                        {t("Delete")}
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => Navigate("/write-prescription")}
-                      >
-                        {t("Issue Prescription")}
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => Navigate("/Write-VitalSigns")}
-                      >
-                        {t("Issue Vital Signs")}
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => Navigate("/write-diagnose")}
-                      >
-                        {t("Issue diagnosis")}
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => Navigate("/issue-ExcuseAbsence")}
-                      >
-                        {t("Issue Absence Excuse")}
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => Navigate("/get-prescription")}
-                      >
-                        {t("Display prescription")}
-                      </button>
-                    </li>
-
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => Navigate("/get-VitalSigns")}
-                      >
-                        {t("Display Vital Signs")}
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => Navigate("/get-diagnose")}
-                      >
-                        {t("Display diagnosis")}
-                      </button>
-                    </li>
-                   
-                    
-                   
-                   
-                  </ul>
+                  <EditPatient id={patient.id} onUpdate={() => setRefreshKey(prev => prev + 1)} />
                 </div>
-              </div>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -219,131 +94,23 @@ export default function d () {
         <div
           className="modal fade show"
           style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-          tabIndex="-1"
-          aria-labelledby="deleteModalLabel"
-          aria-hidden="true"
         >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="deleteModalLabel">
-                  {t("CONFIRM DELETION")}
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={handleDeleteCancel}
-                ></button>
+                <h5 className="modal-title">{t("CONFIRM DELETION")}</h5>
+                <button type="button" className="btn-close" onClick={handleDeleteCancel}></button>
               </div>
               <div className="modal-body">
-            {t("Are you sure you want to delete this record?")}</div>
+                {t("Are you sure you want to delete this record?")}
+              </div>
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  onClick={handleDeleteCancel}
-                >
+                <button type="button" className="btn btn-secondary" onClick={handleDeleteCancel}>
                   {t("Cancel")}
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={handleDeleteConfirm}
-                >
+                <button type="button" className="btn btn-danger" onClick={handleDeleteConfirm}>
                   {t("Confirm")}
                 </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Edit Modal */}
-      {showEditModal && (
-        <div
-          className="modal fade show"
-          style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-          tabIndex="-1"
-          aria-labelledby="editModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="editModalLabel">
-                  {t("Edit Information")}
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => setShowEditModal(false)}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleEditSubmit();
-                  }}
-                >
-                  <div className="mb-3">
-                    <label htmlFor="name" className="form-label">
-                      {t("Name")}
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="admissionDate" className="form-label">
-                      {t("Admission Date")}
-                    </label>
-                    <input
-                      type="date"
-                      className="form-control"
-                      id="admissionDate"
-                      name="admissionDate"
-                      value={formData.admissionDate}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="department" className="form-label">
-                      {t("Department")}
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="department"
-                      name="department"
-                      value={formData.department}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  {/* Add more fields as needed */}
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      onClick={() => setShowEditModal(false)}
-                    >
-                      {t("Close")}
-                    </button>
-                    <button type="submit" className="btn btn-primary">
-                      {t("Save")}
-                    </button>
-                  </div>
-                </form>
               </div>
             </div>
           </div>
