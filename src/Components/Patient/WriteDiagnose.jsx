@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios"; // Import axios
+import { useTranslation } from "react-i18next"; // Import for translations
 
-const DiagnosesForm = ({ onSubmit }) => {
+export default function WriteDiagnosis() {
+  const { id } = useParams();
+  const { t } = useTranslation(); // Use translation hook
+
   const [formData, setFormData] = useState({
     symptoms: "",
-    diagnosis: "",
+    description: "",
     notes: "",
+    patientId: id, // Ensure patientId is initialized correctly
   });
 
   const handleChange = (e) => {
@@ -15,25 +22,26 @@ const DiagnosesForm = ({ onSubmit }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (onSubmit) {
-      onSubmit(formData);
+    try {
+      await axios.post("https://localhost:7127/api/Generic/Create-Diagnosis", formData);
+      alert(t("Diagnosis Submitted Successfully!"));
+      setFormData((prev) => ({
+        ...prev,
+        symptoms: "",
+        diagnosis: "",
+        notes: "",
+      }));
+    } catch (error) {
+      console.error("Error submitting diagnosis:", error);
+      alert(t("An error occurred while submitting the diagnosis."));
     }
-    alert(t("Diagnosis Submitted Successfully!"));
-    setFormData({
-      symptoms: "",
-      diagnosis: "",
-      notes: "",
-    });
   };
 
   return (
     <div className="container mt-4">
-      <form
-        onSubmit={handleSubmit}
-        className="border p-4 rounded shadow-sm bg-light"
-      >
+      <form onSubmit={handleSubmit} className="border p-4 rounded shadow-sm bg-light">
         <h2 className="text-center mb-4">{t("Diagnosis Form")}</h2>
 
         <div className="mb-3">
@@ -47,7 +55,7 @@ const DiagnosesForm = ({ onSubmit }) => {
             onChange={handleChange}
             required
             className="form-control"
-            placeholder="Describe symptoms"
+            placeholder={t("Describe symptoms")}
           ></textarea>
         </div>
 
@@ -63,13 +71,13 @@ const DiagnosesForm = ({ onSubmit }) => {
             onChange={handleChange}
             required
             className="form-control"
-            placeholder="Enter diagnosis"
+            placeholder={t("Enter diagnosis")}
           />
         </div>
 
         <div className="mb-3">
           <label htmlFor="notes" className="form-label">
-           {t(" Notes:")}
+            {t("Notes:")}
           </label>
           <textarea
             id="notes"
@@ -77,7 +85,7 @@ const DiagnosesForm = ({ onSubmit }) => {
             value={formData.notes}
             onChange={handleChange}
             className="form-control"
-            placeholder="Add any additional notes (optional)"
+            placeholder={t("Add any additional notes (mandatory)")}
           ></textarea>
         </div>
 
@@ -89,6 +97,4 @@ const DiagnosesForm = ({ onSubmit }) => {
       </form>
     </div>
   );
-};
-
-export default DiagnosesForm;
+}

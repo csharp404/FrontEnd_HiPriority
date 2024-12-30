@@ -1,42 +1,54 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
 
-const DiagnosisCard = ({ diagnosis }) => {
-  if (!diagnosis) {
-    return <p className="text-center text-muted">{t("No Diagnosis Available.")}</p>;
-  }
+const DiagnosisCard = () => {
+  const { id } = useParams();
+  const [diagnosis, setDiagnosis] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const { patientId, symptoms, diagnosisText, notes } = diagnosis;
+  useEffect(() => {
+    const fetchDiagnosis = async () => {
+      try {
+        const response = await axios.get(`https://localhost:7127/api/Generic/Diagnosis?id=${id}`);
+        setDiagnosis(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDiagnosis();
+  }, [id]);
+
+  if (loading) return <div className="text-center mt-4">Loading...</div>;
+  if (error) return <div className="text-danger mt-4">Error: {error}</div>;
+  if (!diagnosis) return <div className="text-muted mt-4">No diagnosis data available.</div>;
 
   return (
     <div className="container mt-4">
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">
-          <h5 className="mb-0">{t("Diagnosis Details")}</h5>
+          <h5 className="mb-0">Diagnosis Details</h5>
         </div>
         <div className="card-body">
           <div className="mb-3">
-            <strong>{t("Patient ID:")}</strong>
-            <p className="mb-1">{patientId}</p>
+            <strong>Patient Name:</strong>
+            <p className="mb-1">{diagnosis.patientName}</p>
           </div>
           <div className="mb-3">
-            <strong>{t("Symptoms:")}</strong>
-            <p className="mb-1">{symptoms}</p>
+            <strong>Symptoms:</strong>
+            <p className="mb-1">{diagnosis.symptoms}</p>
           </div>
           <div className="mb-3">
-            <strong>{t("Diagnosis:")}</strong>
-            <p className="mb-1">{diagnosisText}</p>
-          </div>
-          <div className="mb-3">
-            <strong>{t("Notes:")}</strong>
-            <p className="mb-1">{notes || t("No Notes Provided.")}</p>
+            <strong>Notes:</strong>
+            <p className="mb-1">{diagnosis.notes || "No Notes Provided."}</p>
           </div>
         </div>
         <div className="card-footer d-flex justify-content-between align-items-center">
-          <span className="text-muted">{t("Last updated:")} {new Date().toLocaleDateString()}</span>
-          <Link to={`/edit-diagnosis`} className="btn btn-primary btn-sm">
-            {t("Edit")}
-          </Link>
+          <span className="text-muted">Last updated: {new Date(diagnosis.created).toLocaleDateString()}</span>
         </div>
       </div>
     </div>

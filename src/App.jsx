@@ -35,6 +35,15 @@ import All from './Components/Patient/AllPrescription'
 
 import WriteVitalSigns from './Components/Patient/WriteVitalSigns';
 import VitalSignHistory from './Components/Patient/vitalSignsHistory';
+
+
+import WriteDiagnosis from "./Components/Patient/WriteDiagnose";
+import DiagnosisCard from "./Components/Patient/GetDiagnose";
+import DiagnosisCards from "./Components/Patient/AllDiagnosis";
+
+import WriteSickLeave from "./Components/Patient/ExcuseAbsence";
+import SickLeaves from "./Components/Patient/AllSickLeave";
+import SickLeave from "./Components/Patient/SickLeave";
 function App() {
   return (
    <BrowserRouter>
@@ -42,6 +51,17 @@ function App() {
    
 
       <Routes>
+
+      <Route path="/create-sick-leave/:id" element={<WriteSickLeave/>}/>
+      <Route path="/sick-leave/:id" element={<SickLeave/>}/>
+      <Route path="/all-sick-leaves/:id" element={<SickLeaves/>}/>
+
+      <Route path="/create-diagnosis/:id" element={<WriteDiagnosis/>}/>
+      <Route path="/diagnosis/:id" element={<DiagnosisCard/>}/>
+      <Route path="/all-diagnosis/:id" element={<DiagnosisCards/>}/>
+
+
+
         <Route path="/all-prescription/:id" element={<All/>}/>
         <Route path="/prescription/:id" element={<GetPres/>}/>
         <Route path="/create-prescription/:id" element={<Createpres/>}/>

@@ -124,6 +124,36 @@ export default function PatientList() {
                       <NavLink className="dropdown-item" to={`/create-prescription/${patient.id}`}>
                         {t("Issue Prescription")}
                       </NavLink>
+                    </li> 
+                    <li>
+                      <NavLink className="dropdown-item" to={`/create-diagnosis/${patient.id}`}>
+                        {t("Issue Diagnosis")}
+                      </NavLink>
+                    </li>
+                   <li>
+                      <NavLink className="dropdown-item" to={`/diagnosis/${patient.id}`}>
+                        {t("get Diagnosis")}
+                      </NavLink>
+                    </li> 
+                    <li>
+                      <NavLink className="dropdown-item" to={`/all-diagnosis/${patient.id}`}>
+                        {t("get all Diagnosis")}
+                      </NavLink>
+                    </li>
+                  <li>
+                      <NavLink className="dropdown-item" to={`/all-sick-leaves/${patient.id}`}>
+                        {t("get all sickleaves")}
+                      </NavLink>
+                    </li>
+                  <li>
+                      <NavLink className="dropdown-item" to={`/sick-leave/${patient.id}`}>
+                        {t("get sickleave")}
+                      </NavLink>
+                    </li>
+                  <li>
+                      <NavLink className="dropdown-item" to={`/create-sick-leave/${patient.id}`}>
+                        {t("issue sickleave")}
+                      </NavLink>
                     </li>
                   </ul>
                 </div>
