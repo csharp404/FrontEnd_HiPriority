@@ -2,9 +2,12 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is loaded fir
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
+import ToastMessage from "../GeneralBlock/ToastMsg";
 
 export default function DoctorForm() {
     const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
   const [doctor, setDoctor] = useState({
     FirstName: "",
     LastName: "",
@@ -119,7 +122,8 @@ export default function DoctorForm() {
         }
       )
       .then((response) => {
-        console.log(t("Success:"), response.data);
+        <ToastMessage type={"success"} />
+        navigate("/doctors")
       })
       .catch((error) => {
         console.error(t("Error:"), error.response?.data || error.message);
@@ -217,10 +221,6 @@ export default function DoctorForm() {
                     max="120"
                   />
                 </div>
-              </div>
-
-              {/* Hire Date and Department Fields */}
-              <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="department" className="form-label">
                     {t("Department")}
@@ -242,6 +242,8 @@ export default function DoctorForm() {
                 </div>
               </div>
 
+              
+
               {/* Experience and Other Fields */}
               <div className="row mb-3">
                 <div className="col-md-6">
@@ -258,10 +260,6 @@ export default function DoctorForm() {
                     required
                   />
                 </div>
-              </div>
-
-              {/* Phone and Email Fields */}
-              <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="phonenumber" className="form-label">
                     {t("Phone")}
@@ -278,6 +276,11 @@ export default function DoctorForm() {
                     title="Phone number must be in the Jordanian format (e.g., 079xxxxxxxx)"
                   />
                 </div>
+              </div>
+
+              {/* Phone and Email Fields */}
+              <div className="row mb-3">
+                
 
                 <div className="col-md-6">
                   <label htmlFor="email" className="form-label">
@@ -293,6 +296,25 @@ export default function DoctorForm() {
                     required
                   />
                 </div>
+                <div className="col-md-6">
+                <label htmlFor="role" className="form-label">
+                  {t("Position")}
+                </label>
+                <select
+                  className="form-select form-select-lg"
+                  id="role"
+                  name="role"
+                  value={doctor.role}
+                  onChange={handleChange}
+                  required
+                  disabled
+                >
+                  <option value="1">{t("Doctor")}</option>
+                  <option value="2">{t("Pharmacist")}</option>
+                  <option value="3">{t("Nurse")}</option>
+                  <option value="4">{t("Management Staff")}</option>
+                </select>
+              </div>
               </div>
 
               {/* Gender Fields */}
@@ -376,25 +398,7 @@ export default function DoctorForm() {
               </div>
 
               {/* Role Field */}
-              <div className="row mb-3">
-                <label htmlFor="role" className="form-label">
-                  {t("Position")}
-                </label>
-                <select
-                  className="form-select form-select-lg"
-                  id="role"
-                  name="role"
-                  value={doctor.role}
-                  onChange={handleChange}
-                  required
-                  disabled
-                >
-                  <option value="1">{t("Doctor")}</option>
-                  <option value="2">{t("Pharmacist")}</option>
-                  <option value="3">{t("Nurse")}</option>
-                  <option value="4">{t("Management Staff")}</option>
-                </select>
-              </div>
+              
 
               <div className="text-center">
                 <button type="submit" className="btn btn-primary btn-lg">

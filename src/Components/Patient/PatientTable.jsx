@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import EditPatient from '../GeneralBlock/EditPatient';
@@ -12,7 +12,6 @@ export default function PatientList() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0); // To trigger re-fetch and re-render
 
-  // Fetch patients on component mount and whenever refreshKey changes
   useEffect(() => {
     const fetchPatients = async () => {
       try {
@@ -74,14 +73,59 @@ export default function PatientList() {
               <td>{patient.pcd}</td>
               <td>{patient.age}</td>
               <td>{patient.phoneNumber}</td>
-              <td>{patient.gender == "Male" ? t("Male") : t("Female")}</td>
+              <td>{patient.gender === "Male" ? t("Male") : t("Female")}</td>
               <td>{patient.address}</td>
               <td>
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <button className="btn btn-danger" onClick={() => handleDeleteClick(patient)}>
-                    {t("Delete")}
+              <EditPatient id={patient.id} onUpdate={() => setRefreshKey((prev) => prev + 1)} />
+                <div className="dropdown">
+                  <button
+                    className="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id={`dropdownMenuButton-${patient.id}`}
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {t("Actions")}
                   </button>
-                  <EditPatient id={patient.id} onUpdate={() => setRefreshKey(prev => prev + 1)} />
+                  <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton-${patient.id}`}>
+                    <li>
+                      <button
+                        className="dropdown-item text-danger"
+                        onClick={() => handleDeleteClick(patient)}
+                      >
+                        {t("Delete")}
+                      </button>
+                    </li>
+                   
+                    <li>
+                      <NavLink className="dropdown-item" to={`/all-prescription/${patient.id}`}>
+                        {t("All Prescription")}
+                      </NavLink>
+                      
+                    </li>
+                    <li>
+                    <NavLink className="dropdown-item" to={`/create-vital-signs/${patient.id}`}>
+                        {t("issue vital signs")}
+                      </NavLink>
+                      
+                    </li>
+                    <li>
+                    <NavLink className="dropdown-item" to={`/history-vital-signs/${patient.id}`}>
+                        {t("History vital signs")}
+                      </NavLink>
+                      
+                    </li>
+                    <li>
+                      <NavLink className="dropdown-item" to={`/prescription/${patient.id}`}>
+                        {t("Prescription")}
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink className="dropdown-item" to={`/create-prescription/${patient.id}`}>
+                        {t("Issue Prescription")}
+                      </NavLink>
+                    </li>
+                  </ul>
                 </div>
               </td>
             </tr>
