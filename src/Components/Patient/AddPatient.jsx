@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+
 import { useTranslation } from 'react-i18next';
 import ToastMessage from '../GeneralBlock/ToastMsg';
+
 
 export default function PatientForm() {
   const [patient, setPatient] = useState({
@@ -26,6 +28,41 @@ export default function PatientForm() {
   const [toastMessage, setToastMessage] = useState(false);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    fetch("https://localhost:7127/api/Generic/Departments")
+      .then((res) => res.json())
+      .then((data) => setDepartments(data))
+      .catch((err) => console.error("Error fetching departments:", err));
+
+    fetch("https://localhost:7127/api/Generic/Cities")
+      .then((res) => res.json())
+      .then((data) => setCities(data))
+      .catch((err) => console.error("Error fetching cities:", err));
+  }, []);
+
+  useEffect(() => {
+    if (patient.cityId) {
+      fetch(`https://localhost:7127/api/Generic/Areas/${patient.cityId}`)
+        .then((res) => res.json())
+        .then((data) => setAreas(data))
+        .catch((err) => console.error("Error fetching areas:", err));
+    }
+  }, [patient.cityId]);
+
+  useEffect(() => {
+    if (patient.departmentId) {
+      fetch(`https://localhost:7127/api/User/user/1/${patient.departmentId}`)
+        .then((res) => res.json())
+        .then((data) => setPcds(data.doctorsCard)) // Set PCDs from the API response
+        .catch((err) => console.error("Error fetching PCDs:", err));
+    }
+  }, [patient.departmentId]); // Trigger fetching PCDs whenever departmentId changes
+
+  const [message, setMessage] = useState("");
+  const [departments, setDepartments] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const [pcds, setPcds] = useState([]); 
   useEffect(() => {
     fetch("https://localhost:7127/api/Generic/Departments")
       .then((res) => res.json())
@@ -83,7 +120,7 @@ export default function PatientForm() {
           areaId: parseInt(patient.areaId),
           cityId: parseInt(patient.cityId),
           gender: patient.gender, // gender remains boolean
-        }),
+
       })
       .catch((error) => {
         console.error("Error fetching prescriptions:", error);
@@ -93,6 +130,7 @@ export default function PatientForm() {
 
       if (response.ok) {
         setToastMessage(true);
+
         setPatient({
           firstName: "",
           lastName: "",
@@ -125,13 +163,13 @@ export default function PatientForm() {
         <div className="col-8">
           <div className="card shadow-lg p-4 rounded">
             <h2 className="text-center mb-4 text-white bg-primary py-3 rounded-top">
-              {t("Add New Patient")}
+              Add New Patient
             </h2>
             <form onSubmit={handleSubmit}>
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="firstName" className="form-label">
-                    {t("First Name")}
+                    First Name
                   </label>
                   <input
                     type="text"
@@ -145,7 +183,7 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="lastName" className="form-label">
-                    {t("Last Name")}
+                    Last Name
                   </label>
                   <input
                     type="text"
@@ -160,6 +198,7 @@ export default function PatientForm() {
               </div>
 
               <div className="row mb-3">
+
               <div className="col-md-6">
   <label htmlFor="age" className="form-label">{t("Age")}</label>
   <input
@@ -216,12 +255,15 @@ export default function PatientForm() {
   </div>
 </div>
 
+
               </div>
 
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="gender" className="form-label">
+
                     {t("Gender")}
+
                   </label>
                   <select
                     className="form-control"
@@ -231,13 +273,17 @@ export default function PatientForm() {
                     onChange={handleChange}
                     required
                   >
+
                     <option value="true">{t("Male")}</option>
                     <option value="false">{t("Female")}</option>
+
                   </select>
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="bloodType" className="form-label">
+
                     {t("Blood Type")}
+
                   </label>
                   <input
                     type="text"
@@ -254,7 +300,9 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="departmentId" className="form-label">
+
                     {t("Department")}
+
                   </label>
                   <select
                     className="form-control"
@@ -264,7 +312,9 @@ export default function PatientForm() {
                     onChange={handleChange}
                     required
                   >
+
                     <option value="">{t("Select Department")}</option>
+
                     {departments.map((dept) => (
                       <option key={dept.id} value={dept.id}>
                         {dept.name}
@@ -274,7 +324,9 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="pcd" className="form-label">
+
                     {t("PCD")}
+
                   </label>
                   <select
                     className="form-control"
@@ -284,7 +336,9 @@ export default function PatientForm() {
                     onChange={handleChange}
                     required
                   >
+
                     <option value="">{t("Select PCD")}</option>
+
                     {pcds.map((pcd) => (
                       <option key={pcd.id} value={pcd.id}>
                         {pcd.name}
@@ -297,7 +351,9 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="areaId" className="form-label">
+
                     {t("Area")}
+
                   </label>
                   <select
                     className="form-control"
@@ -307,7 +363,9 @@ export default function PatientForm() {
                     onChange={handleChange}
                     required
                   >
+
                     <option value="">{t("Select Area")}</option>
+
                     {areas.map((area) => (
                       <option key={area.id} value={area.id}>
                         {area.name}
@@ -317,7 +375,9 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="cityId" className="form-label">
+
                     {t("City")}
+
                   </label>
                   <select
                     className="form-control"
@@ -328,7 +388,9 @@ export default function PatientForm() {
                     required
                   >
 
+
                     <option value="">{t("Select City")}</option>
+
                     {cities.map((city) => (
                       <option key={city.id} value={city.id}>
                         {city.name}
@@ -341,7 +403,9 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="legalGaurdainName" className="form-label">
+
                     {t("Legal Guardian Name")}
+
                   </label>
                   <input
                     type="text"
@@ -355,7 +419,9 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="legalGaurdainPhone" className="form-label">
+
                     {t("Legal Guardian Phone")}
+
                   </label>
                   <input
                     type="tel"
@@ -370,7 +436,9 @@ export default function PatientForm() {
               </div>
 
               <button type="submit" className="btn btn-success btn-lg w-100 mt-4">
+
                 {t("Add")}
+
               </button>
             </form>
 

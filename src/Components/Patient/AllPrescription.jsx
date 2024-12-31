@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 import { useTranslation } from 'react-i18next';
 import ToastMessage from '../GeneralBlock/ToastMsg';
 import SpinnerLoading from "../GeneralBlock/Spinner";
@@ -75,4 +76,5 @@ export default function AllPrescriptions() {
             </div>
         </div>
     );
+
 }

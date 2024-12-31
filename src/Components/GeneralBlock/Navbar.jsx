@@ -51,8 +51,8 @@ export default function NavBar() {
                 name: t("Drugs"),
                 links: [
                   { label: t("Drug Warehouse"), path: "/drugs" },
-                  { label: t("Warehouse Orders"), path: "/ReceiverDrug" },
-                  { label: t("Order Drugs"), path: "/order-drugs" },
+                  { label: t("Warehouse Orders"), path: "/drug-orders" },
+                  { label: t("Order Drugs"), path: "/order-drug" },
                 ],
               },
               {

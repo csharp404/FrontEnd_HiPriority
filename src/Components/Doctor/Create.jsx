@@ -129,8 +129,10 @@ export default function DoctorForm() {
       .then((response) => {
 
 
+
                     setToastMessage(true);
                         // navigate("/doctors")
+
       })
       .catch((error) => {
         setError("Failed to Add a New Doctor.");
@@ -215,6 +217,7 @@ export default function DoctorForm() {
     )}
   </div>
 </div>
+
 
 
           {/* Age and Department */}
@@ -313,6 +316,7 @@ export default function DoctorForm() {
               <label className="form-label">{t("Gender")}</label>
               <div className="form-check d-flex gap-4">
                 <div>
+
                   <input
                     className="form-check-input"
                     type="radio"
@@ -324,7 +328,9 @@ export default function DoctorForm() {
                   />
                   <label htmlFor="male">{t("Male")}</label>
                 </div>
+
                 <div>
+
                   <input
                     className="form-check-input"
                     type="radio"
@@ -336,6 +342,25 @@ export default function DoctorForm() {
                   />
                   <label htmlFor="female">{t("Female")}</label>
                 </div>
+                <div className="col-md-6">
+                <label htmlFor="role" className="form-label">
+                  {t("Position")}
+                </label>
+                <select
+                  className="form-select form-select-lg"
+                  id="role"
+                  name="role"
+                  value={doctor.role}
+                  onChange={handleChange}
+                  required
+                  disabled
+                >
+                  <option value="1">{t("Doctor")}</option>
+                  <option value="2">{t("Pharmacist")}</option>
+                  <option value="3">{t("Nurse")}</option>
+                  <option value="4">{t("Management Staff")}</option>
+                </select>
+              </div>
               </div>
             </div>
           </div>
@@ -376,6 +401,7 @@ export default function DoctorForm() {
             </div>
           </div>
 
+
           {/* Role */}
           <div className="row mb-3">
             <div className="col-md-12">
@@ -396,6 +422,7 @@ export default function DoctorForm() {
               </select>
             </div>
           </div>
+
 
           <div className="text-center">
             <button type="submit" className="btn btn-primary btn-lg">{t("Add")}</button>

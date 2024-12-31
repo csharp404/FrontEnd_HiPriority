@@ -1,13 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
 
-const ExcuseAbsence = ({ onSubmit }) => {
+const ExcuseAbsence = () => {
+  const { id } = useParams();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
-    patientName: "",
     duration: "",
     startDate: "",
     endDate: "",
     reason: "",
+    patientId: id,
   });
+  const [patient, setPatient] = useState(null);
+
+  // Fetch patient data on component mount
+  useEffect(() => {
+    const fetchPatient = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7127/api/Patient/GetById/${id}`
+        );
+        setPatient(response.data.patient);
+        
+      } catch (error) {
+        console.error("Error fetching patient data:", error);
+       
+      }
+    };
+    fetchPatient();
+  }, [id, t]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,19 +40,25 @@ const ExcuseAbsence = ({ onSubmit }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (onSubmit) {
-      onSubmit(formData);
+    try {
+      await axios.post(
+        `https://localhost:7127/api/Generic/create-SickLeave`,
+        formData
+      );
+      alert(t("Excuse Submitted Successfully!"));
+      setFormData({
+        duration: "",
+        startDate: "",
+        endDate: "",
+        reason: "",
+        patientId: id,
+      });
+    } catch (error) {
+      alert(t("Failed to submit excuse. Please try again later."));
+      console.error("Submission error:", error);
     }
-    alert(t("Excuse Submitted Successfully!"));
-    setFormData({
-      patientName: "",
-      duration: "",
-      startDate: "",
-      endDate: "",
-      reason: "",
-    });
   };
 
   return (
@@ -37,7 +66,7 @@ const ExcuseAbsence = ({ onSubmit }) => {
       <form
         onSubmit={handleSubmit}
         className="border p-4 rounded shadow-sm bg-light"
-        style={{ maxWidth: "600px", margin: "auto" }} // Adjust form width
+        style={{ maxWidth: "600px", margin: "auto" }}
       >
         <h2 className="text-center mb-4">{t("Excuse Absence Form")}</h2>
 
@@ -45,17 +74,13 @@ const ExcuseAbsence = ({ onSubmit }) => {
           <label htmlFor="patientName" className="form-label">
             {t("Patient Name:")}
           </label>
-          <input
-            type="text"
-            id="patientName"
-            name="patientName"
-            value={formData.patientName}
-            onChange={handleChange}
-            required
-            className="form-control"
-            placeholder="Enter patient's name"
-            style={{ maxWidth: "100%" }} // Ensure input width is responsive
-          />
+          {patient ? (
+            <h4>
+              {patient.firstName} {patient.lastName}
+            </h4>
+          ) : (
+            <p>{t("Loading patient data...")}</p>
+          )}
         </div>
 
         <div className="mb-3">
@@ -63,15 +88,14 @@ const ExcuseAbsence = ({ onSubmit }) => {
             {t("Duration")} ({t("days")}):
           </label>
           <input
-            type="text"
+            type="number"
             id="duration"
             name="duration"
             value={formData.duration}
             onChange={handleChange}
             required
             className="form-control"
-            placeholder="Enter duration of absence"
-            style={{ maxWidth: "100%" }} // Ensure input width is responsive
+            placeholder={t("Enter duration of absence")}
           />
         </div>
 
@@ -117,8 +141,8 @@ const ExcuseAbsence = ({ onSubmit }) => {
             onChange={handleChange}
             required
             className="form-control"
-            placeholder="Enter reason for absence"
-            style={{ maxWidth: "100%", minHeight: "100px" }} // Ensure textarea width is responsive
+            placeholder={t("Enter reason for absence")}
+            style={{ minHeight: "100px" }}
           ></textarea>
         </div>
 

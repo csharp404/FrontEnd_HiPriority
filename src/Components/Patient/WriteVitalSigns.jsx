@@ -9,6 +9,7 @@ export default function WriteVitalSigns() {
 
   const { id } = useParams();
 
+
   // Initialize vital signs state
   const [vitalSigns, setVitalSigns] = useState({
     temperature: "",

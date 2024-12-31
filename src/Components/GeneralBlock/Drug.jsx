@@ -1,22 +1,29 @@
-import React, { useState } from "react";
-import { useTranslation } from 'react-i18next';
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const DrugWarehouse = () => {
-  const { t, i18n } = useTranslation();
-  const [drugs, setDrugs] = useState([
-    { name: "Paracetamol", quantity: 100, expiry: "2024-05-01" },
-    { name: "Ibuprofen", quantity: 50, expiry: "2025-03-15" },   
-   
+  const { t } = useTranslation();
 
-
-  ]);
+  const [drugs, setDrugs] = useState([]);
   const [newDrug, setNewDrug] = useState({
     name: "",
-    quantity: "",
-    expiry: "",
+    qty: "",
+    expiryDate: "",
   });
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    // Fetch drugs on component mount
+    axios
+      .get("https://localhost:7127/api/Generic/get-drug")
+      .then((response) => {
+        setDrugs(response.data); // Assuming response.data contains the array of drugs
+      })
+      .catch((error) => {
+        console.error("Error fetching drugs:", error);
+      });
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,9 +36,16 @@ const DrugWarehouse = () => {
 
   const handleAddDrug = (e) => {
     e.preventDefault();
-    if (newDrug.name && newDrug.quantity && newDrug.expiry) {
-      setDrugs([...drugs, newDrug]);
-      setNewDrug({ name: "", quantity: "", expiry: "" });
+    if (newDrug.name && newDrug.qty && newDrug.expiryDate) {
+      axios
+        .post("https://localhost:7127/api/Generic/create-drug", newDrug)
+        .then((response) => {
+          setDrugs([...drugs, response.data]); // Add the newly created drug to the list
+          setNewDrug({ name: "", qty: "", expiryDate: "" }); // Reset the form
+        })
+        .catch((error) => {
+          console.error("Error adding drug:", error);
+        });
     }
   };
 
@@ -70,8 +84,8 @@ const DrugWarehouse = () => {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{drug.name}</td>
-                <td>{drug.quantity}</td>
-                <td>{drug.expiry}</td>
+                <td>{drug.qty}</td>
+                <td>{drug.expiryDate}</td>
               </tr>
             ))}
             {filteredDrugs.length === 0 && (
@@ -103,25 +117,25 @@ const DrugWarehouse = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="quantity">{("Quantity")}</label>
+              <label htmlFor="qty">{t("Quantity")}</label>
               <input
                 type="number"
                 className="form-control"
-                id="quantity"
-                name="quantity"
-                value={newDrug.quantity}
+                id="qty"
+                name="qty"
+                value={newDrug.qty}
                 onChange={handleInputChange}
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="expiry">{t("Expiry Date")}</label>
+              <label htmlFor="expiryDate">{t("Expiry Date")}</label>
               <input
                 type="date"
                 className="form-control"
-                id="expiry"
-                name="expiry"
-                value={newDrug.expiry}
+                id="expiryDate"
+                name="expiryDate"
+                value={newDrug.expiryDate}
                 onChange={handleInputChange}
                 required
               />

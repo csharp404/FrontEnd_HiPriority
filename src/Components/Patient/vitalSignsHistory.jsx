@@ -45,6 +45,7 @@ export default function VitalSignsHistory() {
                     <th>{t("Temperature")} ({t("°C")})</th>
                     <th>{t("Blood Pressure")} ({t("mmHg")})</th>
                     <th>{t("Heart Rate")} ({t("bpm")})</th>
+
                     
                   </tr>
                 </thead>
@@ -70,6 +71,7 @@ export default function VitalSignsHistory() {
                 </p>
                 <p>
                   <strong>{t("Average Respiratory Rate:")}</strong> {vitalSignsHistory[0].breathsAVG} {t("breaths/min")}
+
                 </p>
               </div>
             </div>

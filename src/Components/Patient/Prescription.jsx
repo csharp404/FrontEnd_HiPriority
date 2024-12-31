@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function PrescriptionDetails() {
   const { t } = useTranslation();
+
     const {id}  = useParams();
   const [prescription, setPrescription] = useState(null);
 
@@ -43,16 +44,19 @@ export default function PrescriptionDetails() {
               </div>
               <div className="mb-3">
                 <strong>{t("Medication")}</strong>
+
                 <p>{prescription.medication}</p>
               </div>
 
               <div className="mb-3">
                 <strong>{t("Dosage")}</strong>
+
                 <p>{prescription.dosage}</p>
               </div>
 
               <div className="mb-3">
                 <strong>{t("Instructions")}</strong>
+
                 <p>{prescription.instructions}</p>
               </div>
             </div>

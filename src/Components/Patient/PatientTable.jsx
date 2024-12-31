@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+
 import EditPatient from "../GeneralBlock/EditPatient";
 import ToastMessage from "../GeneralBlock/ToastMsg";
 import SpinnerLoading from "../GeneralBlock/Spinner";
 
+
 export default function PatientList() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+
 
   const [toastMessage, setToastMessage] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,9 +21,11 @@ export default function PatientList() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0); // Triggers re-fetch on changes
 
+
   useEffect(() => {
     const fetchPatients = async () => {
       try {
+
         setLoading(true);
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulated delay (1 second)
         const response = await axios.get("https://localhost:7127/api/Patient/Get");
@@ -31,11 +36,14 @@ export default function PatientList() {
         setError(t("Failed To Fetch Patients."));
       } finally {
         setLoading(false);
+
       }
     };
 
     fetchPatients();
+
   }, [refreshKey]);
+
 
   const handleDeleteClick = (item) => {
     setSelectedItem(item);
@@ -47,11 +55,13 @@ export default function PatientList() {
       const response = await axios.delete(`https://localhost:7127/api/Patient/Delete/${selectedItem.id}`);
       if (response.status === 200) {
         setPatients(patients.filter((patient) => patient.id !== selectedItem.id));
+
         setToastMessage({ type: "success", message: t("Patient deleted successfully.") });
       }
     } catch (err) {
       console.error("Error deleting patient:", err);
       setToastMessage({ type: "error", message: t("Failed to delete patient.") });
+
     } finally {
       setShowDeleteModal(false);
     }
@@ -60,6 +70,7 @@ export default function PatientList() {
   const handleDeleteCancel = () => {
     setShowDeleteModal(false);
   };
+
 
   if (loading) {
     return <SpinnerLoading message={t("Loading...")} />;
@@ -70,6 +81,7 @@ export default function PatientList() {
       {toastMessage && <ToastMessage type={toastMessage.type} message={toastMessage.message} />}
 
       {error && <ToastMessage type="error" message={error} />}
+
 
       <table className="table table-hover">
         <thead>
@@ -88,6 +100,7 @@ export default function PatientList() {
         <tbody>
           {patients.map((patient) => (
             <tr key={patient.id} className="table-light">
+
               <td>{patient.name}</td>
               <td>{new Date(patient.admissionDate).toLocaleString()}</td>
               <td>{patient.department}</td>
@@ -98,6 +111,7 @@ export default function PatientList() {
               <td>{patient.address}</td>
               <td>
                 <EditPatient id={patient.id} onUpdate={() => setRefreshKey((prev) => prev + 1)} />
+
                 <div className="dropdown">
                   <button
                     className="btn btn-secondary dropdown-toggle"
@@ -117,10 +131,12 @@ export default function PatientList() {
                         {t("Delete")}
                       </button>
                     </li>
+                   
                     <li>
                       <NavLink className="dropdown-item" to={`/all-prescription/${patient.id}`}>
                         {t("All Prescription")}
                       </NavLink>
+
                     </li>
                     <li>
                       <NavLink className="dropdown-item" to={`/create-vital-signs/${patient.id}`}>
@@ -135,11 +151,18 @@ export default function PatientList() {
                     <li>
                       <NavLink className="dropdown-item" to={`/prescription/${patient.id}`}>
                         {t("Issue Prescription")}
+
                       </NavLink>
                     </li>
-                    <li>
+                   <li>
+                      <NavLink className="dropdown-item" to={`/diagnosis/${patient.id}`}>
+                        {t("get Diagnosis")}
+                      </NavLink>
+                    </li> 
+
                       <NavLink className="dropdown-item" to={`/create-prescription/${patient.id}`}>
                         {t("Issue Prescription")}
+
                       </NavLink>
                     </li>
                   </ul>
@@ -159,6 +182,7 @@ export default function PatientList() {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">{t("Confirm Deletion")}</h5>
+
                 <button type="button" className="btn-close" onClick={handleDeleteCancel}></button>
               </div>
               <div className="modal-body">
