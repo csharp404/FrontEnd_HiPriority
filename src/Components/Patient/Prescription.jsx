@@ -1,11 +1,32 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 export default function PrescriptionDetails() {
-  const [prescription] = useState({
-    medication: "Amoxicillin",
-    dosage: "500mg",
-    instructions: "Take one tablet every 8 hours for 7 days.",
-  });
+  const { t } = useTranslation();
+    const {id}  = useParams();
+  const [prescription, setPrescription] = useState(null);
+
+  useEffect(() => {
+    // Fetch prescription details
+    axios
+      .get(`https://localhost:7127/api/Generic/Precription?id=${id}`)
+      .then((response) => {
+        setPrescription(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching prescription details:", error);
+      });
+  }, [id]);
+
+  if (!prescription) {
+    return (
+      <div className="container mt-5 text-center">
+        <p>Loading prescription details...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-5">
@@ -13,21 +34,25 @@ export default function PrescriptionDetails() {
         <div className="col-md-8">
           <div className="card shadow-lg">
             <div className="card-header bg-primary text-white text-center">
-              <h3>{("Prescription Details")}</h3>
+              <h3>{t("Prescription Details")}</h3>
             </div>
             <div className="card-body">
               <div className="mb-3">
-                <strong>{("Medication:")}</strong>
+                <strong>{t("Patient Name")}</strong>
+                <p>{prescription.patientName}</p>
+              </div>
+              <div className="mb-3">
+                <strong>{t("Medication")}</strong>
                 <p>{prescription.medication}</p>
               </div>
 
               <div className="mb-3">
-                <strong>{("Dosage:")}</strong>
+                <strong>{t("Dosage")}</strong>
                 <p>{prescription.dosage}</p>
               </div>
 
               <div className="mb-3">
-                <strong>{("Instructions:")}</strong>
+                <strong>{t("Instructions")}</strong>
                 <p>{prescription.instructions}</p>
               </div>
             </div>

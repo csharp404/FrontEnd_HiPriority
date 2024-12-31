@@ -1,16 +1,24 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios"; 
+import { useTranslation } from 'react-i18next';
 
 export default function WriteVitalSigns() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
+  const { id } = useParams();
+
+  // Initialize vital signs state
   const [vitalSigns, setVitalSigns] = useState({
     temperature: "",
     bloodPressure: "",
     heartRate: "",
-    respiratoryRate: "",
+    breaths: "",
+    patientId: id,
   });
 
+  // Handle input field changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setVitalSigns((prev) => ({
@@ -19,14 +27,21 @@ export default function WriteVitalSigns() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Here you can handle the data (e.g., send it to the backend or save it in the state)
-    console.log("Vital Signs:", vitalSigns);
-
-    // Redirect to history page (or any other page you want after saving)
-    navigate("/vital-signs-history");
+    try {
+      const response = await axios.post(
+        "https://localhost:7127/api/Generic/create-VitalSigns",
+        vitalSigns
+      );
+      console.log("Response:", response.data);
+      // Redirect to the vital signs history page upon success
+      navigate("/vital-signs-history");
+    } catch (error) {
+      console.error("Error saving vital signs:", error.response || error);
+      alert(t("An error occurred while saving the vital signs."));
+    }
   };
 
   return (
@@ -35,29 +50,39 @@ export default function WriteVitalSigns() {
         <div className="col-md-8">
           <div className="card shadow-lg">
             <div className="card-header bg-primary text-white text-center">
-              <h3>{t("Vital Signs form")}</h3>
+              <h3>{t("Vital Signs Form")}</h3>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
+                {/* Temperature Field */}
                 <div className="mb-3">
-                  <label htmlFor="temperature" className="form-label">
-                    {t("Temperature")} ({t("°C")})
-                  </label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    id="temperature"
-                    name="temperature"
-                    className="form-control"
-                    value={vitalSigns.temperature}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
+  <label htmlFor="temperature" className="form-label">
+    <strong>{t("Temperature")}</strong>({t("°C")}) <small>{("normal range:36.5-37.5")}</small>  
+  </label>
+  <input
+    type="number"
+    step="0.1"
+    id="temperature"
+    name="temperature"
+    className="form-control"
+    value={vitalSigns.temperature}
+    onChange={handleInputChange}
+    required
+    min="24"
+    max="44"
+  />
+  {vitalSigns.temperature && (vitalSigns.temperature < 24 || vitalSigns.temperature > 44) && (
+    <div className="text-danger">
+      {t("Temperature must be between 24°C and 44°C.")}
+    </div>
+  )}
+</div>
 
+
+                {/* Blood Pressure Field */}
                 <div className="mb-3">
                   <label htmlFor="bloodPressure" className="form-label">
-                   {t(" Blood Pressure")} ({t("mmHg")})
+                    {t("Blood Pressure")} ({t("mmHg")})
                   </label>
                   <input
                     type="text"
@@ -70,9 +95,10 @@ export default function WriteVitalSigns() {
                   />
                 </div>
 
+                {/* Heart Rate Field */}
                 <div className="mb-3">
                   <label htmlFor="heartRate" className="form-label">
-                    {t("Heart Rate")} ({t("BPM")})
+                    {t("Heart Rate")} ({t("(BPM)")})
                   </label>
                   <input
                     type="number"
@@ -85,21 +111,23 @@ export default function WriteVitalSigns() {
                   />
                 </div>
 
+                {/* Respiratory Rate Field */}
                 <div className="mb-3">
-                  <label htmlFor="respiratoryRate" className="form-label">
+                  <label htmlFor="breaths" className="form-label">
                     {t("Respiratory Rate")} ({t("Breaths/min")})
                   </label>
                   <input
                     type="number"
-                    id="respiratoryRate"
-                    name="respiratoryRate"
+                    id="breaths"
+                    name="breaths"
                     className="form-control"
-                    value={vitalSigns.respiratoryRate}
+                    value={vitalSigns.breaths}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
 
+                {/* Submit Button */}
                 <button type="submit" className="btn btn-primary w-100 py-2">
                   {t("Save")}
                 </button>

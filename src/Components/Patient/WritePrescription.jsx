@@ -1,27 +1,40 @@
+import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function WritePrescription() {
+  const {id}  = useParams();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [prescription, setPrescription] = useState({
     medication: "",
     dosage: "",
     instructions: "",
+    patientId: id,
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
     setPrescription((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    navigate("/prescription-history");
+    try {
+      await axios.post(
+        "https://localhost:7127/api/Generic/Create-Precription",
+        prescription
+      );
+      navigate("/prescription-history");
+    } catch (error) {
+      console.error("Failed to submit the prescription:", error);
+    }
   };
 
   return (

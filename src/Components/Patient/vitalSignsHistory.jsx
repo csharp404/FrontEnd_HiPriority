@@ -1,17 +1,33 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { t } from "i18next"; // Ensure translation function is imported
 
 export default function VitalSignsHistory() {
-  const [vitalSignsHistory] = useState([
-    { date: "2024-11-01", temperature: 36.7, bloodPressure: "120/80", heartRate: 75, respiratoryRate: 16 },
-    { date: "2024-11-02", temperature: 37.2, bloodPressure: "125/85", heartRate: 78, respiratoryRate: 17 },
-    { date: "2024-11-03", temperature: 36.8, bloodPressure: "118/79", heartRate: 74, respiratoryRate: 15 },
-    { date: "2024-11-04", temperature: 37.0, bloodPressure: "122/82", heartRate: 80, respiratoryRate: 16 },
-  ]);
+  const { id } = useParams();
+  const [vitalSignsHistory, setVitalSignsHistory] = useState([]);
 
-  const calculateAverage = (key) => {
-    const total = vitalSignsHistory.reduce((acc, item) => acc + item[key], 0);
-    return (total / vitalSignsHistory.length).toFixed(2);
-  };
+  // Fetch vital signs history on component mount
+  useEffect(() => {
+    const fetchVitalSignsHistory = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7127/api/Generic/VitalSigns?id=${id}`
+        );
+        setVitalSignsHistory(response.data); // Store fetched data in state
+      } catch (error) {
+        console.error("Error fetching vital signs history:", error);
+        alert(t("An error occurred while fetching the medical history."));
+      }
+    };
+
+    fetchVitalSignsHistory();
+  }, [id]); // Re-run the effect when `id` changes
+
+  // Check if the history is loaded and contains data
+  if (!vitalSignsHistory.length) {
+    return <div>{t("Loading...")}</div>;
+  }
 
   return (
     <div className="container mt-5">
@@ -26,20 +42,20 @@ export default function VitalSignsHistory() {
                 <thead>
                   <tr>
                     <th>{t("Date")}</th>
-                    <th>{t("Temperature")} (°C)</th>
-                    <th>{t("Blood Pressure")} (mmHg)</th>
-                    <th>{t("Heart Rate")} (bpm)</th>
-                    <th>{t("Respiratory Rate")} (breaths/min)</th>
+                    <th>{t("Temperature")} ({t("°C")})</th>
+                    <th>{t("Blood Pressure")} ({t("mmHg")})</th>
+                    <th>{t("Heart Rate")} ({t("bpm")})</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
                   {vitalSignsHistory.map((entry, index) => (
                     <tr key={index}>
-                      <td>{entry.date}</td>
+                      <td>{entry.dateRecorded}</td>
                       <td>{entry.temperature}</td>
                       <td>{entry.bloodPressure}</td>
                       <td>{entry.heartRate}</td>
-                      <td>{entry.respiratoryRate}</td>
+                     
                     </tr>
                   ))}
                 </tbody>
@@ -47,16 +63,13 @@ export default function VitalSignsHistory() {
               <div className="mt-4">
                 <h5>{t("Statistics")}</h5>
                 <p>
-                  <strong>{t("Average Temperature:")}</strong> {calculateAverage("temperature")} °C
+                  <strong>{t("Average Temperature:")}</strong> {vitalSignsHistory[0].temperatureAVG} {t("°C")}
                 </p>
                 <p>
-                  <strong>{t("Average Blood Pressure:")}</strong> {calculateAverage("bloodPressure")} mmHg
+                  <strong>{t("Average Heart Rate:")}</strong> {vitalSignsHistory[0].heartRateAVG} {t("(BPM)")}
                 </p>
                 <p>
-                  <strong>{t("Average Heart Rate:")}</strong> {calculateAverage("heartRate")} bpm
-                </p>
-                <p>
-                  <strong>{t("Average Respiratory Rate:")}</strong> {calculateAverage("respiratoryRate")} breaths/min
+                  <strong>{t("Average Respiratory Rate:")}</strong> {vitalSignsHistory[0].breathsAVG} {t("breaths/min")}
                 </p>
               </div>
             </div>

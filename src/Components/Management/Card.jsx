@@ -33,7 +33,7 @@ export default function Card() {
   }, []);
 
   if (loading) {
-    return <SpinnerLoading message={t("Loading Staff Data, Please Hold on...")} />;
+    return <SpinnerLoading message={t("Loading Staff Data, Please Hold On...")} />;
   }
 
   if (error) {
