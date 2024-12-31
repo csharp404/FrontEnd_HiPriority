@@ -44,6 +44,10 @@ import DiagnosisCards from "./Components/Patient/AllDiagnosis";
 import WriteSickLeave from "./Components/Patient/ExcuseAbsence";
 import SickLeaves from "./Components/Patient/AllSickLeave";
 import SickLeave from "./Components/Patient/SickLeave";
+
+import OrderDrug from './Components/GeneralBlock/OrderDrug'
+import Drug from './Components/GeneralBlock/Drug'
+import DrugsReceiver from './Components/GeneralBlock/DrugsReceiver'
 function App() {
   return (
    <BrowserRouter>
@@ -51,6 +55,12 @@ function App() {
    
 
       <Routes>
+      <Route path="/order-drug" element={<OrderDrug/>}/>
+      <Route path="/drugs" element={<Drug/>}/>
+      <Route path="/drug-orders" element={<DrugsReceiver/>}/>
+
+
+
 
       <Route path="/create-sick-leave/:id" element={<WriteSickLeave/>}/>
       <Route path="/sick-leave/:id" element={<SickLeave/>}/>

@@ -1,15 +1,44 @@
-import React, { useState } from "react";
-import { useTranslation } from 'react-i18next';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const DrugOrderForm = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [orders, setOrders] = useState([]);
   const [order, setOrder] = useState({
-    doctorName: "",
-    drugName: "",
-    quantity: "",
-    comments: "",
+    drugId: "",
+    requestedBy: "",
+    name: "",
+    note: "",
+    qty: "",
   });
+  const [drugs, setDrugs] = useState([]);
+
+  // Fetch drugs on component mount
+  useEffect(() => {
+    axios
+      .get("https://localhost:7127/api/Generic/get-drug")
+      .then((response) => {
+        setDrugs(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching drugs:", error);
+      });
+
+    // Fetch orders on component mount
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = () => {
+    axios
+      .get("https://localhost:7127/api/Generic/get-orders")
+      .then((response) => {
+        setOrders(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching orders:", error);
+      });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -18,14 +47,22 @@ const DrugOrderForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (order.doctorName && order.drugName && order.quantity) {
-      setOrders([...orders, order]);
-      setOrder({
-        doctorName: "",
-        drugName: "",
-        quantity: "",
-        comments: "",
-      });
+
+    if (order.requestedBy && order.drugId && order.qty) {
+      axios
+        .post("https://localhost:7127/api/Generic/create-order", order)
+        .then(() => {
+          setOrder({
+            requestedBy: "",
+            drugId: "",
+            qty: "",
+            note: "",
+          });
+          fetchOrders();
+        })
+        .catch((error) => {
+          console.error("Error creating order:", error);
+        });
     }
   };
 
@@ -39,49 +76,55 @@ const DrugOrderForm = () => {
         <div className="card-body">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="doctorName">{t("Requested By")}</label>
+              <label htmlFor="requestedBy">{t("Requested By")}</label>
               <input
                 type="text"
                 className="form-control"
-                id="doctorName"
-                name="doctorName"
-                value={order.doctorName}
+                id="requestedBy"
+                name="requestedBy"
+                value={order.requestedBy}
                 onChange={handleInputChange}
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="drugName">{t("Drug Name")}</label>
-              <input
-                type="text"
+              <label htmlFor="drugId">{t("Drug Name")}</label>
+              <select
                 className="form-control"
-                id="drugName"
-                name="drugName"
-                value={order.drugName}
+                id="drugId"
+                name="drugId"
+                value={order.drugId}
                 onChange={handleInputChange}
                 required
-              />
+              >
+                <option value="">{t("Select a Drug")}</option>
+                {drugs.map((drug) => (
+                  <option key={drug.id} value={drug.id}>
+                    {drug.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="form-group">
-              <label htmlFor="quantity">{t("Quantity")}</label>
+              <label htmlFor="qty">{t("Quantity")}</label>
               <input
                 type="number"
                 className="form-control"
-                id="quantity"
-                name="quantity"
-                value={order.quantity}
+                id="qty"
+                name="qty"
+                value={order.qty}
                 onChange={handleInputChange}
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="comments">{t("Comments")}</label>
+              <label htmlFor="note">{t("Comments")}</label>
               <textarea
                 className="form-control"
-                id="comments"
-                name="comments"
+                id="note"
+                name="note"
                 rows="3"
-                value={order.comments}
+                value={order.note}
                 onChange={handleInputChange}
               ></textarea>
             </div>
@@ -94,36 +137,49 @@ const DrugOrderForm = () => {
 
       {/* Orders List */}
       <div className="mt-4">
-        <h2>{("Order History")}</h2>
-        {orders.length === 0 ? (
-          <p className="text-muted">{t("No Orders Placed Yet.")}</p>
-        ) : (
-          <div className="table-responsive">
-            <table className="table table-bordered table-hover">
-              <thead className="thead-light">
-                <tr>
-                  <th>{t("Serial Number")}</th>
-                  <th>{t("Pharmacist's Name")}</th>
-                  <th>{t("Drug Name")}</th>
-                  <th>{t("Quantity")}</th>
-                  <th>{t("Comments")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{order.doctorName}</td>
-                    <td>{order.drugName}</td>
-                    <td>{order.quantity}</td>
-                    <td>{order.comments || "N/A"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+  <h2>{t("Order History")}</h2>
+  {orders.length === 0 ? (
+    <p className="text-muted">{t("No Orders Placed Yet.")}</p>
+  ) : (
+    <div className="table-responsive">
+      <table className="table table-bordered table-hover">
+        <thead className="thead-light">
+          <tr>
+            <th>{t("Serial Number")}</th>
+            <th>{t("Requested By")}</th>
+            <th>{t("Drug Name")}</th>
+            <th>{t("Quantity")}</th>
+            <th>{t("Status")}</th>
+            <th>{t("Note")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order, index) => (
+            <tr key={index}>
+              <td>{order.id}</td>
+              <td>{order.requestedBy}</td>
+              <td>{order.drug.name || "N/A"}</td>
+              <td>{order.qty}</td>
+              <td>
+                <span
+                  style={{
+                    backgroundColor: order.status === 1 ? "green" : "orange",
+                    color: "white",
+                    padding: "5px 10px",
+                    borderRadius: "5px",
+                  }}
+                >
+                  {order.status === 1 ? t("Fulfilled") : t("Pending")}
+                </span>
+              </td>
+              <td>{order.note || t("N/A")}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</div>
     </div>
   );
 };
