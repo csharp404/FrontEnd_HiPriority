@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 
+import { useTranslation } from 'react-i18next';
+import ToastMessage from '../GeneralBlock/ToastMsg';
+
+
 export default function PatientForm() {
   const [patient, setPatient] = useState({
     firstName: "",
@@ -15,6 +19,44 @@ export default function PatientForm() {
     legalGuardianPhone: "",
     legalGuardianName: "",
   });
+  const { t } = useTranslation();
+  const [message, setMessage] = useState("");
+  const [departments, setDepartments] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const [pcds, setPcds] = useState([]); 
+  const [toastMessage, setToastMessage] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch("https://localhost:7127/api/Generic/Departments")
+      .then((res) => res.json())
+      .then((data) => setDepartments(data))
+      .catch((err) => console.error("Error fetching departments:", err));
+
+    fetch("https://localhost:7127/api/Generic/Cities")
+      .then((res) => res.json())
+      .then((data) => setCities(data))
+      .catch((err) => console.error("Error fetching cities:", err));
+  }, []);
+
+  useEffect(() => {
+    if (patient.cityId) {
+      fetch(`https://localhost:7127/api/Generic/Areas/${patient.cityId}`)
+        .then((res) => res.json())
+        .then((data) => setAreas(data))
+        .catch((err) => console.error("Error fetching areas:", err));
+    }
+  }, [patient.cityId]);
+
+  useEffect(() => {
+    if (patient.departmentId) {
+      fetch(`https://localhost:7127/api/User/user/1/${patient.departmentId}`)
+        .then((res) => res.json())
+        .then((data) => setPcds(data.doctorsCard)) // Set PCDs from the API response
+        .catch((err) => console.error("Error fetching PCDs:", err));
+    }
+  }, [patient.departmentId]); // Trigger fetching PCDs whenever departmentId changes
 
   const [message, setMessage] = useState("");
   const [departments, setDepartments] = useState([]);
@@ -78,11 +120,17 @@ export default function PatientForm() {
           areaId: parseInt(patient.areaId),
           cityId: parseInt(patient.cityId),
           gender: patient.gender, // gender remains boolean
-        }),
-      });
+
+      })
+      .catch((error) => {
+        console.error("Error fetching prescriptions:", error);
+        setError("Failed to fetch prescriptions.");
+    });
+;
 
       if (response.ok) {
-        setMessage("Patient added successfully!");
+        setToastMessage(true);
+
         setPatient({
           firstName: "",
           lastName: "",
@@ -109,6 +157,8 @@ export default function PatientForm() {
 
   return (
     <div className="container mt-5 mb-5">
+      {toastMessage && <ToastMessage type="success" message="a New Patient Added Successfully" />}
+
       <div className="row justify-content-center">
         <div className="col-8">
           <div className="card shadow-lg p-4 rounded">
@@ -148,40 +198,72 @@ export default function PatientForm() {
               </div>
 
               <div className="row mb-3">
-                <div className="col-md-6">
-                  <label htmlFor="age" className="form-label">
-                    Age
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="age"
-                    name="age"
-                    value={patient.age}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="col-md-6">
-                  <label htmlFor="phoneNumber" className="form-label">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    className="form-control"
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    value={patient.phoneNumber}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
+
+              <div className="col-md-6">
+  <label htmlFor="age" className="form-label">{t("Age")}</label>
+  <input
+    type="number"
+    className={`form-control form-control-lg ${doctor.age && (doctor.age < 22 || doctor.age > 64) ? 'is-invalid' : ''}`}
+    id="age"
+    name="age"
+    value={doctor.age}
+    onChange={handleChange}
+    required
+    min="22"
+    max="64"
+  />
+  {doctor.age && (doctor.age < 22 || doctor.age > 64) && (
+    <div className="invalid-feedback">
+      {t("Age must be between 22 and 64.")}
+    </div>
+  )}
+</div>
+                <div className="row mb-3">
+  <div className="col-md-6">
+    <label htmlFor="Password" className="form-label">{t("Password")}</label>
+    <input
+      type="password"
+      className={`form-control form-control-lg ${doctor.Password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(doctor.Password) ? 'is-invalid' : ''}`}
+      id="Password"
+      name="Password"
+      value={doctor.Password}
+      onChange={handleChange}
+      required
+    />
+    {doctor.Password && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(doctor.Password) && (
+      <div className="invalid-feedback">
+        {t("Password must be at least 8 characters long, a capital letter, a small letter, a number, and a special character.")}
+      </div>
+    )}
+  </div>
+  <div className="col-md-6">
+    <label htmlFor="ConfirmPassword" className="form-label">{t("Confirm Password")}</label>
+    <input
+      type="password"
+      className={`form-control form-control-lg ${doctor.ConfirmPassword && doctor.ConfirmPassword !== doctor.Password ? 'is-invalid' : ''}`}
+      id="ConfirmPassword"
+      name="ConfirmPassword"
+      value={doctor.ConfirmPassword}
+      onChange={handleChange}
+      required
+    />
+    {doctor.ConfirmPassword && doctor.ConfirmPassword !== doctor.Password && (
+      <div className="invalid-feedback">
+        {t("Passwords do not match.")}
+      </div>
+    )}
+  </div>
+</div>
+
+
               </div>
 
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="gender" className="form-label">
-                    Gender
+
+                    {t("Gender")}
+
                   </label>
                   <select
                     className="form-control"
@@ -191,13 +273,17 @@ export default function PatientForm() {
                     onChange={handleChange}
                     required
                   >
-                    <option value="true">Male</option>
-                    <option value="false">Female</option>
+
+                    <option value="true">{t("Male")}</option>
+                    <option value="false">{t("Female")}</option>
+
                   </select>
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="bloodType" className="form-label">
-                    Blood Type
+
+                    {t("Blood Type")}
+
                   </label>
                   <input
                     type="text"
@@ -214,7 +300,9 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="departmentId" className="form-label">
-                    Department
+
+                    {t("Department")}
+
                   </label>
                   <select
                     className="form-control"
@@ -224,7 +312,9 @@ export default function PatientForm() {
                     onChange={handleChange}
                     required
                   >
-                    <option value="">Select Department</option>
+
+                    <option value="">{t("Select Department")}</option>
+
                     {departments.map((dept) => (
                       <option key={dept.id} value={dept.id}>
                         {dept.name}
@@ -234,7 +324,9 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="pcd" className="form-label">
-                    PCD (Personal Code)
+
+                    {t("PCD")}
+
                   </label>
                   <select
                     className="form-control"
@@ -244,7 +336,9 @@ export default function PatientForm() {
                     onChange={handleChange}
                     required
                   >
-                    <option value="">Select PCD</option>
+
+                    <option value="">{t("Select PCD")}</option>
+
                     {pcds.map((pcd) => (
                       <option key={pcd.id} value={pcd.id}>
                         {pcd.name}
@@ -257,7 +351,9 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="areaId" className="form-label">
-                    Area
+
+                    {t("Area")}
+
                   </label>
                   <select
                     className="form-control"
@@ -267,7 +363,9 @@ export default function PatientForm() {
                     onChange={handleChange}
                     required
                   >
-                    <option value="">Select Area</option>
+
+                    <option value="">{t("Select Area")}</option>
+
                     {areas.map((area) => (
                       <option key={area.id} value={area.id}>
                         {area.name}
@@ -277,7 +375,9 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="cityId" className="form-label">
-                    City
+
+                    {t("City")}
+
                   </label>
                   <select
                     className="form-control"
@@ -287,7 +387,10 @@ export default function PatientForm() {
                     onChange={handleChange}
                     required
                   >
-                    <option value="">Select City</option>
+
+
+                    <option value="">{t("Select City")}</option>
+
                     {cities.map((city) => (
                       <option key={city.id} value={city.id}>
                         {city.name}
@@ -300,7 +403,9 @@ export default function PatientForm() {
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="legalGaurdainName" className="form-label">
-                    Legal Guardian Name
+
+                    {t("Legal Guardian Name")}
+
                   </label>
                   <input
                     type="text"
@@ -314,7 +419,9 @@ export default function PatientForm() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="legalGaurdainPhone" className="form-label">
-                    Legal Guardian Phone
+
+                    {t("Legal Guardian Phone")}
+
                   </label>
                   <input
                     type="tel"
@@ -329,7 +436,9 @@ export default function PatientForm() {
               </div>
 
               <button type="submit" className="btn btn-success btn-lg w-100 mt-4">
-                Add Patient
+
+                {t("Add")}
+
               </button>
             </form>
 

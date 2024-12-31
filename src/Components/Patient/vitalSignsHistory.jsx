@@ -42,9 +42,10 @@ export default function VitalSignsHistory() {
                 <thead>
                   <tr>
                     <th>{t("Date")}</th>
-                    <th>{t("Temperature")} (°C)</th>
-                    <th>{t("Blood Pressure")} (mmHg)</th>
-                    <th>{t("Heart Rate")} (bpm)</th>
+                    <th>{t("Temperature")} ({t("°C")})</th>
+                    <th>{t("Blood Pressure")} ({t("mmHg")})</th>
+                    <th>{t("Heart Rate")} ({t("bpm")})</th>
+
                     
                   </tr>
                 </thead>
@@ -63,13 +64,14 @@ export default function VitalSignsHistory() {
               <div className="mt-4">
                 <h5>{t("Statistics")}</h5>
                 <p>
-                  <strong>{t("Average Temperature:")}</strong> {vitalSignsHistory[0].temperatureAVG} °C
+                  <strong>{t("Average Temperature:")}</strong> {vitalSignsHistory[0].temperatureAVG} {t("°C")}
                 </p>
                 <p>
-                  <strong>{t("Average Heart Rate:")}</strong> {vitalSignsHistory[0].heartRateAVG} bpm
+                  <strong>{t("Average Heart Rate:")}</strong> {vitalSignsHistory[0].heartRateAVG} {t("(BPM)")}
                 </p>
                 <p>
-                  <strong>{t("Average Respiratory Rate:")}</strong> {vitalSignsHistory[0].breathsAVG} breaths/min
+                  <strong>{t("Average Respiratory Rate:")}</strong> {vitalSignsHistory[0].breathsAVG} {t("breaths/min")}
+
                 </p>
               </div>
             </div>

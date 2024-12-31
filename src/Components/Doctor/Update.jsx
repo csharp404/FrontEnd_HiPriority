@@ -85,7 +85,7 @@ export default function DoctorForm() {
       .then(() => {
         setToastMessage(t("Doctor Data Updated Successfully!")); // Trigger toast message on success
         setTimeout(() => setToastMessage(""), 3000); // Clear toast message after 3 seconds
-        navigate(`/DoctorDetails/${id}`);
+        // navigate(`/DoctorDetails/${id}`);
       })
       .catch((error) => {
         console.error(t("Error Updating Doctor Data:"), error);
@@ -102,7 +102,7 @@ export default function DoctorForm() {
         <div className="col-8">
           <div className="card shadow-lg p-4 rounded">
             <h2 className="text-center mb-4 text-white bg-primary py-3 rounded-top">
-              {t("Add New Doctor")}
+              {t("Edit Doctor")}
             </h2>
             {toastMessage && (
               <ToastMessage message={toastMessage} type={"success"} />
@@ -330,10 +330,10 @@ export default function DoctorForm() {
                   required
                   disabled
                 >
-                  <option value="1">{t("Doctor")}</option>
-                  <option value="2">{t("Nurse")}</option>
-                  <option value="3">{t("Management Staff")}</option>
-                  <option value="4">{t("Pharmacist")}</option>
+                  <option value={1}>{t("Doctor")}</option>
+                  <option value={2}>{t("Nurse")}</option>
+                  <option value={3}>{t("Management Staff")}</option>
+                  <option value={4}>{t("Pharmacist")}</option>
                 </select>
               </div>
 

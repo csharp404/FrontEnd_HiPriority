@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios"; 
-import { t } from "i18next"; 
+import { useTranslation } from 'react-i18next';
 
 export default function WriteVitalSigns() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const { id } = useParams();
+
 
   // Initialize vital signs state
   const [vitalSigns, setVitalSigns] = useState({
@@ -54,20 +57,28 @@ export default function WriteVitalSigns() {
               <form onSubmit={handleSubmit}>
                 {/* Temperature Field */}
                 <div className="mb-3">
-                  <label htmlFor="temperature" className="form-label">
-                    {t("Temperature")} ({t("°C")})
-                  </label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    id="temperature"
-                    name="temperature"
-                    className="form-control"
-                    value={vitalSigns.temperature}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
+  <label htmlFor="temperature" className="form-label">
+    <strong>{t("Temperature")}</strong>({t("°C")}) <small>{("normal range:36.5-37.5")}</small>  
+  </label>
+  <input
+    type="number"
+    step="0.1"
+    id="temperature"
+    name="temperature"
+    className="form-control"
+    value={vitalSigns.temperature}
+    onChange={handleInputChange}
+    required
+    min="24"
+    max="44"
+  />
+  {vitalSigns.temperature && (vitalSigns.temperature < 24 || vitalSigns.temperature > 44) && (
+    <div className="text-danger">
+      {t("Temperature must be between 24°C and 44°C.")}
+    </div>
+  )}
+</div>
+
 
                 {/* Blood Pressure Field */}
                 <div className="mb-3">
@@ -88,7 +99,7 @@ export default function WriteVitalSigns() {
                 {/* Heart Rate Field */}
                 <div className="mb-3">
                   <label htmlFor="heartRate" className="form-label">
-                    {t("Heart Rate")} ({t("BPM")})
+                    {t("Heart Rate")} ({t("(BPM)")})
                   </label>
                   <input
                     type="number"

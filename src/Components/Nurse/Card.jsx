@@ -34,7 +34,7 @@ export default function Card() {
   }, []);
 
   if (loading) {
-    return <SpinnerLoading message={t("Loading Nurse data, please hold on...")} />;
+    return <SpinnerLoading message={t("Loading Nurse Data, Please Hold On...")} />;
   }
 
   if (error) {
